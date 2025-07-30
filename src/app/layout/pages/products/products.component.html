@@ -1,0 +1,46 @@
+
+@if(isLoading)
+{
+  <div class="container">
+    <div class="row H justify-center items-center">
+      <div>
+        <i class="fa fa-spin fa-spinner font text-xl text-main"></i>
+        </div>
+    </div>
+  </div>
+}
+@else
+{
+  <div class="container mx-auto">
+    <div class="relative mx-auto w-3/4 mb-5 group">
+      <input type="text" [(ngModel)]="userWord" Name="search" id="search" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+      <label for="search" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Search for product</label>
+    </div>
+    <div class="row">
+
+     @for (product of productlist | search : userWord ; track $index)
+     {
+
+      <div class="md:w-2/12 p-3">
+
+  <div class="product relative  p-2" >
+    <div class="absolute w-full ">  @if(arr.includes(product.id)) {<button  (click)="removeProductToWishlist(product.id)" class=""><i class=" px-3 py-2 fas fa-heart"></i></button>}@else {<button  (click)="addProductToWishlist(product.id)" class=""><i class="fa-regular px-3 py-2 fa-heart"></i></button>} </div>
+    <div [routerLink]="['/productdetails' , product.id ]">
+    <img [src]="product.main_photo" class="w-full" alt="">
+    <span class="text-main font-sn">{{product.specifications}}</span>
+    <h3 class="my-3 text-lg font.medium">{{product.name}}</h3>
+       <div class="row justify-between">
+         <span>{{product.price | currency }}EGP</span>
+         <span>{{product.size}} <i class="fa fa-star rating-color"></i></span>
+       </div>
+      </div>
+       <button (click)="addProductToCart(product.id)" class="btn-main w-full">add to cart</button>
+  </div>
+
+     </div>
+
+     }
+
+    </div>
+  </div>
+}

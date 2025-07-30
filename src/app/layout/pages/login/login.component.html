@@ -1,0 +1,61 @@
+<div class="container-scroller">
+  <div class="container-fluid page-body-wrapper full-page-wrapper">
+    <div class="row w-100 m-0">
+      <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+        <div class="card col-lg-4 mx-auto">
+          <div class="card-body px-5 py-5">
+            <h3 class="card-title text-left mb-3">Login</h3>
+            @if(errmsg){
+              {{errmsg}}
+            }
+            <form [formGroup]="loginForm" (ngSubmit)="submitlogin()">
+              <div class="form-group">
+                <label> email *</label>
+                <input type="email" formControlName="email" class="form-control p_input">
+                @if(loginForm.get('email')?.errors && loginForm.get('email')?.touched){
+
+                  <div>
+                    @if (loginForm.get('email')?.errors?.['required'])
+                      {email is required}
+                    @else if (loginForm.get('email')?.errors?.['email'])
+                      {plece enter valid email}
+                  </div>
+
+                }
+              </div>
+              <div class="form-group">
+                <label>Password *</label>
+                <input type="password" formControlName="password" class="form-control p_input">
+                @if(loginForm.get('password')?.errors && loginForm.get('password')?.touched){
+
+                  <div>
+                    @if (loginForm.get('password')?.errors?.['required'])
+                      {<p>password is required</p>}
+                      @else if (loginForm.get('password')?.errors?.['pattern'])
+                      {<p>password must start with uppercaes letter</p>
+                      <p>min length is 8</p>
+                      <p>include letters and numbers</p>}
+                  </div>
+
+                }
+              </div>
+              <div class="form-group d-flex align-items-center justify-content-between">
+                <a routerLink="/ForGetPassword" class="forgot-pass">Forgot password</a>
+              </div>
+              <div class="text-center">
+                <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary btn-block enter-btn">
+                  @if(isLoading)
+                    {<span> login <i class="fa fa-spin fa-spinner"></i> </span>}
+                    @else{<span>login</span>}</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+          <!-- content-wrapper ends -->
+    </div>
+        <!-- row ends -->
+  </div>
+      <!-- page-body-wrapper ends -->
+</div>

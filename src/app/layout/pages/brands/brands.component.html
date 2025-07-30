@@ -1,0 +1,27 @@
+
+@if(isLoading){
+  <div class="container">
+    <div class="row H justify-center items-center">
+      <div>
+        <i class="fa fa-spin fa-spinner font text-xl text-main"></i>
+        </div>
+    </div>
+  </div>
+
+  }
+  @else {
+    <div class="container">
+      <div class="row">
+        @for (brands of brandsList; track $index) {
+        <div class="md:w-2/12 flex flex-wrap justify-center static-img p-5">
+          <img [src]="brands.image"  class="w-full" [alt]="brands.name" [title]="brands.name ">
+          <h1 class="text-center text-gray-400">{{brands.name}}</h1>
+        </div>
+    }
+
+      </div>
+    </div>
+
+
+
+  }
