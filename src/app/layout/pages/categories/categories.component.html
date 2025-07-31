@@ -10,18 +10,5 @@
 
   }
   @else {
-    <div class="container">
-      <div class="row">
-        @for (category of categoryList; track $index) {
-        <div class="md:w-4/12 flex flex-wrap justify-center static-img p-5">
-          <img [src]="category.image"  class="w-full" [alt]="category.name" [title]="category.name ">
-          <h1 class="text-center text-gray-400">{{category.name}}</h1>
-        </div>
-    }
-
-      </div>
-    </div>
-
-
 
   }

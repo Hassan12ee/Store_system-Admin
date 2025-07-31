@@ -9,15 +9,22 @@ import { Enviroment } from '../../../base/Enviroment';
   providedIn: 'root'
 })
 export class ProductService {
+    userTokenHeader = {
+    Authorization : localStorage.getItem("userToken") || '',
+  }
 
   constructor(private _Httpclient:HttpClient) { }
   getallproducts():Observable<Products>
   {
-     return this._Httpclient.get<Products>(`${Enviroment.baseUrl}/api/Products/`);
+     return this._Httpclient.get<Products>(`${Enviroment.baseUrl}/api/employee/products/`,{
+      headers:this.userTokenHeader
+    });
   }
   getProductById(productId:string):Observable<any>
   {
-     return this._Httpclient.get(`${Enviroment.baseUrl}/api/Products/${productId}`);
+     return this._Httpclient.get(`${Enviroment.baseUrl}/api/employee/products/${productId}`,{
+      headers:this.userTokenHeader
+    });
   }
 
 }

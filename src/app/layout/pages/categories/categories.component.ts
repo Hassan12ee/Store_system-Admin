@@ -16,22 +16,22 @@ export class CategoriesComponent  implements OnInit{
   ngOnInit(): void {
     if( typeof localStorage!= 'undefined')
    localStorage.setItem('currentpage','/Categories')
-  this.getAllcategories();
+  // this.getAllcategories();
   }
-  getAllcategories()
-  {
-    this.isLoading=true;
-  this._CatgeoryService.getAllCategories().subscribe({
-    next : res =>{
-      this.categoryList = res.data
+  // getAllcategories()
+  // {
+  //   this.isLoading=true;
+  // this._CatgeoryService.getAllCategories().subscribe({
+  //   next : res =>{
+  //     this.categoryList = res.data
 
-      this.isLoading=false;
-    },
-    error:err =>{
-      console.log(err);
-      this.isLoading=false;
-    }
+  //     this.isLoading=false;
+  //   },
+  //   error:err =>{
+  //     console.log(err);
+  //     this.isLoading=false;
+  //   }
 
-  })
-  }
+  // })
+  // }
 }

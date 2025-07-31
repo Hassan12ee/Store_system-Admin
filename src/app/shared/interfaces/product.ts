@@ -1,24 +1,31 @@
 export interface Products {
-  current_page:  number;
-  per_page:      number;
-  total:         number;
-  last_page:     number;
+  data: Data;
+  message: string;
+  status: number;
+}
+
+export interface Data {
+  current_page: number;
+  per_page: number;
+  total: number;
+  last_page: number;
   next_page_url: null;
   prev_page_url: null;
-  products:      Product[];
+  products: Product[];
 }
 
 export interface Product {
-  id:             string;
-  name:           string;
-  Photos:         string[];
-  main_photo:     null;
-  quantity:       number;
+  id: number;
+  name: string;
+  Photos: string[];
+  main_photo: null | string;
+  quantity: number;
   specifications: string;
-  price:          string;
-  size:           string;
-  dimensions:     string;
-  warehouse_id:   number;
-  created_at:     Date;
-  updated_at:     Date;
+  price: string;
+  size: string;
+  barcode: null | string;
+  dimensions: string;
+  warehouse_id: number;
+  created_at: string;
+  updated_at: string;
 }

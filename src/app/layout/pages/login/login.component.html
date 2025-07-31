@@ -10,14 +10,14 @@
             }
             <form [formGroup]="loginForm" (ngSubmit)="submitlogin()">
               <div class="form-group">
-                <label> email *</label>
-                <input type="email" formControlName="email" class="form-control p_input">
-                @if(loginForm.get('email')?.errors && loginForm.get('email')?.touched){
+                <label> email or phone*</label>
+                <input type="text" formControlName="login" class="form-control p_input">
+                @if(loginForm.get('login')?.errors && loginForm.get('login')?.touched){
 
                   <div>
-                    @if (loginForm.get('email')?.errors?.['required'])
+                    @if (loginForm.get('login')?.errors?.['required'])
                       {email is required}
-                    @else if (loginForm.get('email')?.errors?.['email'])
+                    @else if (loginForm.get('login')?.errors?.['control'])
                       {plece enter valid email}
                   </div>
 

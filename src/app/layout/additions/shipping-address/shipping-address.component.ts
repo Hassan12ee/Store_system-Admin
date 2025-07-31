@@ -56,17 +56,17 @@ export class ShippingAddressComponent implements OnInit {
       //connect api
       this._ActivatedRoute.paramMap.subscribe({next: params => {
 
-        this._OrderService.checkoutc(params.get("id")!,this.ShippingAddressForm.value).subscribe({
-          next:(res)=>{
-            this.isLoading = false;
-            this._Router.navigate(["/allorders"]);
-          },
-          error:(err) => {
+        // this._OrderService.checkoutc(params.get("id")!,this.ShippingAddressForm.value).subscribe({
+        //   next:(res)=>{
+        //     this.isLoading = false;
+        //     this._Router.navigate(["/allorders"]);
+        //   },
+        //   error:(err) => {
 
-            this.isLoading = false;
-            this.errmsg = err.error.message;
-          }
-        });
+        //     this.isLoading = false;
+        //     this.errmsg = err.error.message;
+        //   }
+        // });
       }})
 
     }

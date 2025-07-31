@@ -23,9 +23,21 @@ export class LoginComponent implements OnInit  {
   isLoading:boolean = false;
   errmsg !:string;
 
-  loginForm:FormGroup = new FormGroup({
-    email : new FormControl(null,[Validators.required,Validators.email]),
-    password : new FormControl(null,Validators.required,),
+  loginForm: FormGroup = new FormGroup({
+    login: new FormControl(null, [
+      Validators.required,
+      (control) => {
+        const value = control.value;
+        if (!value) return null;
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phonePattern = /^01[0-2,5]{1}[0-9]{8}$/; // Egyptian phone numbers
+        if (emailPattern.test(value) || phonePattern.test(value)) {
+          return null;
+        }
+        return { loginInvalid: true };
+      }
+    ]),
+    password: new FormControl(null, Validators.required),
   })
   submitlogin(){this.isLoading = true;
     if(this.loginForm.valid){

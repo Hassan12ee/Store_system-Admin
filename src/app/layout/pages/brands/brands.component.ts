@@ -16,24 +16,24 @@ constructor(private _BrandsService:BrandsService) {}
   ngOnInit(): void {
     if( typeof localStorage!= 'undefined')
    localStorage.setItem('currentpage','/Brands');
-    this. getAllBrands();
+    // this. getAllBrands();
   }
 
 
-  getAllBrands()
-  {
-    this.isLoading=true;
-  this._BrandsService.getAllBrands().subscribe({
-    next : res =>{
-      this.brandsList= res.data
+  // getAllBrands()
+  // {
+  //   this.isLoading=true;
+  // this._BrandsService.getAllBrands().subscribe({
+  //   next : res =>{
+  //     this.brandsList= res.data
 
-      this.isLoading=false;
-    },
-    error:err =>{
-      console.log(err);
-      this.isLoading=false;
-    }
+  //     this.isLoading=false;
+  //   },
+  //   error:err =>{
+  //     console.log(err);
+  //     this.isLoading=false;
+  //   }
 
-  })
-  }
+  // })
+  // }
 }

@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../../shared/services/product/product.service';
 import { ActivatedRoute } from '@angular/router';
-import { CartService } from '../../../shared/services/cart/cart.service';
+
 import { ToastrService } from 'ngx-toastr';
 import { Product } from '../../../shared/interfaces/product';
 
@@ -15,7 +15,7 @@ import { Product } from '../../../shared/interfaces/product';
   styleUrl: './productdetails.component.scss'
 })
 export class ProductdetailsComponent implements OnInit{
-constructor(private _ProductService:ProductService ,private _ActivatedRoute:ActivatedRoute ,private _CartService:CartService ,private toastr: ToastrService) {
+constructor(private _ProductService:ProductService ,private _ActivatedRoute:ActivatedRoute ,private toastr: ToastrService) {
 
  }
  id : string='';
@@ -52,16 +52,5 @@ constructor(private _ProductService:ProductService ,private _ActivatedRoute:Acti
     })
 
   }
-  addProductToCart(preoductId:string)
-{
-  this._CartService.addProductToCart(preoductId).subscribe({
-    next: res =>{
-      console.log(res);
-      this.toastr.success(res.message ,'',{
-        progressBar: true,
-      });
-    },
-    error: err =>{}
-  })
-}
+
 }
