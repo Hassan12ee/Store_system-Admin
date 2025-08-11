@@ -10,7 +10,7 @@ import { CurrencyPipe, LowerCasePipe } from '@angular/common';
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [ FormsModule, SearchPipe ,CurrencyPipe,RouterLink],
+  imports: [ FormsModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
 })
@@ -32,7 +32,6 @@ export class ProductsComponent  implements OnInit{
     this._ProductService.getallproducts().subscribe({
       next : res =>{
         this.productlist = res.data.products;
-        console.log(this.productlist)
         this.isLoading=false;
       },
       error : err =>{

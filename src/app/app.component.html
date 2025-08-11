@@ -2,8 +2,8 @@
   @if (isLogin==true) {
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-          <a class="sidebar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg" alt="logo" /></a>
-          <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo" routerLink="/Home"><img src="assets/images/logo.svg" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo-mini" routerLink="/Home"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
         </div>
         <ul class="nav">
           <li class="nav-item profile">
@@ -15,7 +15,7 @@
                 </div>
                 <div class="profile-name">
                   <h5 class="mb-0 font-weight-normal">{{name}}</h5>
-                  <span>{{role}}</span>
+                  <span>{{roles}}</span>
                 </div>
               </div>
               <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
@@ -59,14 +59,15 @@
             <span class="nav-link">Navigation</span>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" routerLink="/Home">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
               </span>
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
-          <li class="nav-item menu-items">
+
+          <li class="nav-item menu-items"*ngIf="hasPermission('view_employee')">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <span class="menu-icon">
                 <i class="mdi mdi-account-multiple-outline"></i>
@@ -76,25 +77,83 @@
             </a>
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" routerLink="/ForGetPassword">New employee</a></li>
-                <li class="nav-item"> <a class="nav-link" routerLink="/ForGetPassword">All employees</a></li>
-                <li class="nav-item"> <a class="nav-link" routerLink="/ForGetPassword"></a></li>
+                <li class="nav-item" *ngIf="hasPermission('view_employee')"> <a class="nav-link" routerLink="/employees">All employees</a></li>
+                <li class="nav-item" *ngIf="hasPermission('add_employee')"> <a class="nav-link" routerLink="/employees/new">New employee</a></li>
               </ul>
             </div>
           </li>
-          <li class="nav-item menu-items">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+          <li class="nav-item menu-items" *ngIf="hasPermission('view_users')">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic2" aria-expanded="false" aria-controls="ui-basic2">
               <span class="menu-icon">
                 <i class="mdi mdi-account-multiple-outline"></i>
               </span>
-              <span class="menu-title">employees</span>
+              <span class="menu-title">Users</span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="ui-basic">
+            <div class="collapse" id="ui-basic2">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" routerLink="/order">New employee</a></li>
-                <li class="nav-item"> <a class="nav-link" routerLink="/ForGetPassword">All employees</a></li>
-                <li class="nav-item"> <a class="nav-link" routerLink="/ForGetPassword"></a></li>
+                <li class="nav-item" *ngIf="hasPermission('view_users')"> <a class="nav-link" routerLink="/users">All Users</a></li>
+                <li class="nav-item" *ngIf="hasPermission('add_users')"> <a class="nav-link" routerLink="/users/new">New Users</a></li>
+              </ul>
+            </div>
+          </li>
+                              <li class="nav-item menu-items" *ngIf="hasPermission('view_storage')">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic3" aria-expanded="false" aria-controls="ui-basic3">
+              <span class="menu-icon">
+                <i class="mdi mdi-account-multiple-outline"></i>
+              </span>
+              <span class="menu-title">Storage</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic3">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item" *ngIf="hasPermission('view_storage')"> <a class="nav-link" routerLink="/storage">All Storage</a></li>
+                <li class="nav-item" *ngIf="hasPermission('add_storage')"> <a class="nav-link" routerLink="/storage/new">New Storage</a></li>
+              </ul>
+            </div>
+          </li>
+                              <li class="nav-item menu-items" *ngIf="hasPermission('view_Role')">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic4" aria-expanded="false" aria-controls="ui-basic4">
+              <span class="menu-icon">
+                <i class="mdi mdi-account-multiple-outline"></i>
+              </span>
+              <span class="menu-title">Role</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic4">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item" *ngIf="hasPermission('view_Role')"> <a class="nav-link" routerLink="/roles">all Roles</a></li>
+                <li class="nav-item" *ngIf="hasPermission('add_Role')"> <a class="nav-link" routerLink="/roles/new">New Role</a></li>
+              </ul>
+            </div>
+          </li>
+                              <li class="nav-item menu-items" *ngIf="hasPermission('view_products')">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic5" aria-expanded="false" aria-controls="ui-basic5">
+              <span class="menu-icon">
+                <i class="mdi mdi-account-multiple-outline"></i>
+              </span>
+              <span class="menu-title">Products</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic5">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item" *ngIf="hasPermission('view_products')"> <a class="nav-link" routerLink="/products">All Products</a></li>
+                <li class="nav-item" *ngIf="hasPermission('add_products')"> <a class="nav-link" routerLink="/products/new">New Products</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item menu-items" *ngIf="hasPermission('view_orders')">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic6" aria-expanded="false" aria-controls="ui-basic6">
+              <span class="menu-icon">
+                <i class="mdi mdi-account-multiple-outline"></i>
+              </span>
+              <span class="menu-title">Orders</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic6">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item" *ngIf="hasPermission('view_orders')"> <a class="nav-link" routerLink="/orders">All Orders</a></li>
+                <li class="nav-item" *ngIf="hasPermission('add_orders')"> <a class="nav-link" routerLink="/orders/new">New Orders</a></li>
               </ul>
             </div>
           </li>

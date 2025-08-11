@@ -46,12 +46,12 @@ export class LoginComponent implements OnInit  {
         next:(res)=>{
           this.isLoading = false;
           localStorage.setItem("userToken",`bearer ${res.token}`);
-          localStorage.setItem("have_address",res.employee.roles);
-          localStorage.setItem("email_verified_at",res.employee.email_verified_at);
-          localStorage.setItem("email",res.employee.email);
-          localStorage.setItem("Name",`${res.employee.FristName} ${res.employee.LastName}`);
+          localStorage.setItem("have_address",res.roles);
+          localStorage.setItem("email_verified_at",res.user.email_verified_at);
+          localStorage.setItem("email",res.user.email);
+          localStorage.setItem("Name",`${res.user.FristName} ${res.user.LastName}`);
           this._AuthService.deCodeUserData();
-          if(res.employee.email_verified_at==null)
+          if(res.user.email_verified_at==null)
             {
               this._Router.navigate(["/verifyEmail"]);
             }

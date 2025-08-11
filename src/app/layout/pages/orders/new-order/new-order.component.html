@@ -1,0 +1,116 @@
+<h2>Create Guest Order</h2>
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+  <h4>Customer Info</h4>
+  <div *ngIf="!userConfirmed">
+    <mat-form-field appearance="fill">
+      <input matInput placeholder="First Name" formControlName="first_name">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <input matInput placeholder="Last Name" formControlName="last_name">
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="fill">
+    <input matInput placeholder="Phone" formControlName="phone" (blur)="checkPhoneNumber()" [readonly]="userConfirmed">
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="button" (click)="confirmUser()" *ngIf="userExists === true && !userConfirmed">
+    تأكيد المستخدم
+  </button>
+  <div *ngIf="userExists === true" style="color: green; margin-bottom: 10px;">
+    رقم الهاتف له حساب بالفعل (سيتم ربط الطلب بالحساب الحالي)
+  </div>
+  <div *ngIf="userExists === false" style="color: blue; margin-bottom: 10px;">
+    رقم الهاتف ليس له حساب (سيتم إنشاء حساب جديد تلقائياً)
+  </div>
+
+  <h4>Address</h4>
+<!-- عرض العناوين الموجودة -->
+<div *ngIf="userConfirmed && userAddresses.length > 0 && selectedAddressId !== 0">
+  <h4>اختر عنوان:</h4>
+  <mat-radio-group [value]="selectedAddressId" (change)="onAddressChange($event)">
+    <mat-radio-button *ngFor="let addr of userAddresses" [value]="addr.id">
+      <div>
+        <b>{{ addr.governorate }}</b> - {{ addr.city }} - {{ addr.street }}
+        <span *ngIf="addr.comments">({{ addr.comments }})</span>
+      </div>
+    </mat-radio-button>
+    <mat-radio-button [value]="0">إضافة عنوان جديد</mat-radio-button>
+  </mat-radio-group>
+</div>
+
+<!-- عرض فورم إضافة عنوان جديد فقط لو اختار "إضافة عنوان جديد" -->
+<div *ngIf="userConfirmed && selectedAddressId === 0">
+  <mat-form-field appearance="fill">
+    <input matInput placeholder="Governorate" formControlName="governorate">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <input matInput placeholder="City" formControlName="city">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <input matInput placeholder="Street" formControlName="street">
+  </mat-form-field>
+</div>
+
+<!-- عرض فورم إضافة عنوان جديد فقط لو اختار "إضافة عنوان جديد" -->
+<div *ngIf="!userConfirmed">
+  <mat-form-field appearance="fill">
+    <input matInput placeholder="Governorate" formControlName="governorate">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <input matInput placeholder="City" formControlName="city">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <input matInput placeholder="Street" formControlName="street">
+  </mat-form-field>
+</div>
+  <mat-form-field appearance="fill">
+    <textarea matInput placeholder="Comments" formControlName="comments"></textarea>
+  </mat-form-field>
+
+  <h4>Order Items</h4>
+  <div formArrayName="order_items">
+    <div *ngFor="let item of orderItems.controls; let i = index" [formGroupName]="i" class="order-item">
+
+      <mat-form-field appearance="fill">
+        <mat-select formControlName="product_id" placeholder="Select Product">
+          <mat-option
+            *ngFor="let product of products"
+            [value]="product.id"
+            [disabled]="isProductSelected(product.id, i)">
+            <img [src]="product.main_photo" width="30" height="30" style="margin-right: 10px;">
+            {{ product.name }} - {{ product.price }} EGP (Qty: {{ product.quantity }})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <input type="number" matInput placeholder="Quantity" formControlName="quantity"
+               [max]="getProduct(item.get('product_id')?.value)?.quantity"
+               (input)="
+                item.get('quantity')?.setValue(
+                  Math.min(item.get('quantity')?.value, getProduct(item.get('product_id')?.value)?.quantity || 0)
+                )">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <input type="number" matInput placeholder="Price" formControlName="price" readonly>
+      </mat-form-field>
+
+      <button mat-icon-button color="warn" type="button" (click)="removeItem(i)" *ngIf="orderItems.length > 1">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <button mat-raised-button color="primary" type="button" (click)="addItem()">Add Item</button>
+
+  <h4>Total: {{ totalPrice | number:'1.2-2' }} EGP</h4>
+
+  <button mat-raised-button color="accent" type="submit" [disabled]="loading || form.invalid">
+    Submit
+  </button>
+</form>
+
+<p *ngIf="message">{{ message }}</p>
+
