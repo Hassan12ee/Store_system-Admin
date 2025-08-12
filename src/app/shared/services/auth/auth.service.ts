@@ -63,7 +63,7 @@ export class AuthService {
 
   // تسجيل الدخول
   signIn(data: loginData): Observable<any> {
-    return this._HttpClient.post(`${Enviroment.baseUrl}/api/auth/login`, data);
+    return this._HttpClient.post(`${Enviroment.baseUrl}/api/auth/emp/login`, data);
   }
 
   // تحقق من OTP البريد

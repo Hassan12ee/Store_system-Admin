@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     if( typeof localStorage!= 'undefined')
    localStorage.setItem('currentpage','/Home')
-
+  
   this.getallproducts();
 
   }

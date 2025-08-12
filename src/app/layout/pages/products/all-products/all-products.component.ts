@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-all-products',
@@ -7,6 +7,9 @@ import { Component } from '@angular/core';
   templateUrl: './all-products.component.html',
   styleUrl: './all-products.component.scss'
 })
-export class AllProductsComponent {
-
+export class AllProductsComponent implements OnInit {
+  ngOnInit(): void {
+    if( typeof localStorage!= 'undefined')
+   localStorage.setItem('currentpage','/products')
+  }
 }

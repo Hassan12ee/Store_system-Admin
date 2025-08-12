@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-new-storage',
@@ -7,6 +7,9 @@ import { Component } from '@angular/core';
   templateUrl: './new-storage.component.html',
   styleUrl: './new-storage.component.scss'
 })
-export class NewStorageComponent {
-
+export class NewStorageComponent implements OnInit{
+  ngOnInit(): void {
+    if( typeof localStorage!= 'undefined')
+   localStorage.setItem('currentpage','/storage/new')
+  }
 }

@@ -2,7 +2,6 @@ import { NotfoundComponent } from './layout/additions/notfound/notfound.componen
 import { HomeComponent } from './layout/pages/home/home.component';
 import { Routes } from '@angular/router';
 import { ProductsComponent } from './layout/pages/products/products.component';
-import { RegisterComponent } from './layout/pages/register/register.component';
 import { LoginComponent } from './layout/pages/login/login.component';
 import { authGuard } from './shared/guards/auth.guard';
 import { ForgetpasswordComponent } from './layout/additions/forgetpassword/forgetpassword.component';
@@ -30,13 +29,13 @@ import { NewProductComponent } from './layout/pages/products/new-product/new-pro
 // Orders
 import { AllOrdersComponent } from './layout/pages/orders/all-orders/all-orders.component';
 import { NewOrderComponent } from './layout/pages/orders/new-order/new-order.component';
+import { EditOrdersComponent } from './layout/pages/orders/edit-orders/edit-orders.component';
 
 
 export const routes: Routes = [
   { path:"",redirectTo:"Home",pathMatch:"full"},
   { path: "Home", component: HomeComponent, canActivate :[authGuard], },
   { path: "Products",component:ProductsComponent, canActivate :[authGuard] },
-  { path: "Register",component:RegisterComponent , canActivate :[authGuard] },
   { path: "login",component:LoginComponent},
   { path: "ForGetPassword",component:ForgetpasswordComponent },
   { path: "verifyEmail",component:verifyEmailComponent },
@@ -52,6 +51,7 @@ export const routes: Routes = [
   { path: 'products/new', component: NewProductComponent, canActivate :[authGuard] },
   { path: 'orders', component: AllOrdersComponent, canActivate :[authGuard] },
   { path: 'orders/new', component: NewOrderComponent, canActivate :[authGuard] },
+  { path: "orders/edit/:ID", component: EditOrdersComponent, canActivate :[authGuard] },
 //{
 //   path: 'products/edit',
 //   component: EditProductComponent,

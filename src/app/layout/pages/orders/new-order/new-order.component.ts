@@ -1,11 +1,11 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { address } from './../../../../shared/interfaces/data';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProductService } from '../../../../shared/services/product/product.service';
 import { OrderService } from '../../../../shared/services/order/order.service';
-import { Product } from '../../../../shared/interfaces/product';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -19,7 +19,8 @@ import { MatRadioModule } from '@angular/material/radio';
 @Component({
   selector: 'app-new-order',
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
     MatFormFieldModule,
@@ -29,42 +30,46 @@ import { MatRadioModule } from '@angular/material/radio';
     MatIconModule,
     MatRadioModule,
     FormsModule,
-    OrderSuccessDialogComponent],
+    OrderSuccessDialogComponent
+  ],
   templateUrl: './new-order.component.html',
   styleUrl: './new-order.component.scss'
 })
 export class NewOrderComponent {
-    Math = Math; // ⬅️ أضف هذا السطر هنا
+  Math = Math;
 
   fb = inject(FormBuilder);
   http = inject(HttpClient);
 
   form: FormGroup;
+  formex!: FormGroup;
   products: any[] = [];
   loading = false;
   message = '';
   totalPrice = 0;
   userExists: boolean | null = null;
-checkingPhone = false;
-userConfirmed = false;
-userAddresses: any[] = [];
-selectedAddressId: number = 0; // اجعلها number وليس null
-userId: number | null = null; // أضف هذا المتغير في الكلاس
+  checkingPhone = false;
+  userConfirmed = false;
+  userAddresses: any[] = [];
+  selectedAddressId: number = 0;
+  userId: number | null = null;
 
   constructor(
     private _ProductService: ProductService,
     private _OrderService: OrderService,
-    private dialog: MatDialog // أضف هذا
+    private dialog: MatDialog
   ) {
-                if( typeof localStorage!= 'undefined')
-   localStorage.setItem('currentpage','/orders/new')
+    if (typeof localStorage != 'undefined')
+      localStorage.setItem('currentpage', '/orders/new');
+
     this.form = this.fb.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
       phone: ['', Validators.required],
-      governorate: ['', Validators.required],
-      city: ['', Validators.required],
-      street: ['', Validators.required],
+      address_id: [''],
+      governorate: [''],
+      city: ['' ],
+      street: [''],
       comments: [''],
       order_items: this.fb.array([this.createItem()])
     });
@@ -72,8 +77,9 @@ userId: number | null = null; // أضف هذا المتغير في الكلاس
     this.loadProducts();
     this.form.valueChanges.subscribe(() => this.calculateTotal());
 
-    // اربط كل عنصر order_item بتغيير السعر عند تغيير المنتج
-    this.orderItems.controls.forEach((item, i) => this.setupProductPriceListener(item as FormGroup, i));
+    this.orderItems.controls.forEach((item, i) =>
+      this.setupProductPriceListener(item as FormGroup, i)
+    );
   }
 
   createItem(): FormGroup {
@@ -110,13 +116,10 @@ userId: number | null = null; // أضف هذا المتغير في الكلاس
     this.orderItems.removeAt(index);
   }
 
-      loadProducts(): void 
-  {
-  
+  loadProducts(): void {
     this._ProductService.getallproducts().subscribe({
-      next : res =>{
+      next: res => {
         this.products = res.data.products;
-        // حدث الأسعار للمنتجات المختارة
         this.orderItems.controls.forEach(item => {
           const productId = (item as FormGroup).get('product_id')?.value;
           const product = this.getProduct(productId);
@@ -125,14 +128,11 @@ userId: number | null = null; // أضف هذا المتغير في الكلاس
           }
         });
       },
-      error : err =>{
+      error: err => {
         console.log(err);
-        
       }
-    })
-
+    });
   }
-
 
   calculateTotal() {
     this.totalPrice = this.orderItems.controls.reduce((sum, item) => {
@@ -150,46 +150,83 @@ userId: number | null = null; // أضف هذا المتغير في الكلاس
     }
 
     this.loading = true;
-    let request$;
-    if (this.userExists === true) {
-      // استخدم ميثود existing-user-order
-      request$ = this._OrderService.orderExistingUser(this.form.value);
-    } else {
-      // استخدم ميثود guest-order
-      request$ = this._OrderService.orderfg(this.form.value);
-    }
 
-    request$.subscribe({
-      next: (res) => {
-        this.message = 'Order submitted successfully';
-        this.form.reset();
-        this.orderItems.clear();
-        this.addItem();
+    const sendOrder = () => {
+      const payload = {
+        ...this.form.value,
+        address_id: this.selectedAddressId !== 0 ? this.selectedAddressId : null
+      };
 
-        // فتح المودال مع البيانات
-        if (res?.data) {
-          this.dialog.open(OrderSuccessDialogComponent, {
-            data: res.data,
-            disableClose: true // يمنع الإغلاق إلا بزر Close
-          });
-        }
-      },
-      error: (err) => {
-        this.message = 'Error submitting order';
-        console.error(err);
-      },
-      complete: () => {
-        this.loading = false;
+      let request$;
+      if (this.userExists === true) {
+        request$ = this._OrderService.orderExistingUser(payload);
+      } else {
+        request$ = this._OrderService.orderfg(payload);
       }
-    });
+
+      request$.subscribe({
+        next: (res) => {
+          this.message = 'Order submitted successfully';
+
+
+          if (res?.data) {
+            this.dialog.open(OrderSuccessDialogComponent, {
+              data: res.data,
+              disableClose: true
+            }
+          
+            ).afterClosed().subscribe(() => {
+                        this.form.reset();
+          this.orderItems.clear();
+          this.addItem();
+            });
+          }
+        },
+        error: (err) => {
+          this.message = 'Error submitting order';
+          console.error(err);
+        },
+        complete: () => {
+          this.loading = false;
+        }
+      });
+    };
+      sendOrder();
+    
+  }
+addNewAddressForUser() {
+  if (!this.userId) {
+    this.message = 'لا يوجد مستخدم محدد';
+    return;
   }
 
+  const addressData = {
+    governorate: this.form.get('governorate')?.value,
+    city: this.form.get('city')?.value,
+    street: this.form.get('street')?.value,
+    comments: this.form.get('comments')?.value
+  };
+
+  this._OrderService.addAddress(this.userId, addressData).subscribe({
+    next: (res) => {
+      if (res?.data?.id) {
+        this.message = 'تمت إضافة العنوان بنجاح';
+              if(this.userId !== null )
+        this.getUserAddresses(this.userId); // تحديث القائمة
+        this.selectedAddressId = res.data.id; // تحديد العنوان الجديد
+      }
+    },
+    error: (err) => {
+      console.error(err);
+      this.message = 'خطأ أثناء إضافة العنوان';
+    }
+  });
+}
   getProduct(productId: number) {
     return this.products.find(p => p.id == productId);
   }
 
   isProductSelected(productId: number, currentIndex: number): boolean {
-    // تحقق إذا كان المنتج مختار في أي عنصر آخر غير الحالي
     return this.orderItems.controls.some((item, idx) =>
       idx !== currentIndex && item.get('product_id')?.value == productId
     );
@@ -202,7 +239,7 @@ userId: number | null = null; // أضف هذا المتغير في الكلاس
     this._OrderService.checkPhone(phone).subscribe({
       next: res => {
         this.userExists = res.user_exists;
-        this.userId = res.user_id; // احفظ الـ id هنا
+        this.userId = res.user_id;
         this.checkingPhone = false;
       },
       error: () => {
@@ -215,7 +252,6 @@ userId: number | null = null; // أضف هذا المتغير في الكلاس
 
   confirmUser() {
     this.userConfirmed = true;
-    // استخدم userId مباشرة بدون طلب جديد
     if (this.userId) {
       this.getUserAddresses(this.userId);
     }
@@ -226,14 +262,12 @@ userId: number | null = null; // أضف هذا المتغير في الكلاس
       next: res => {
         if (res.status && res.data && res.data.length) {
           this.userAddresses = res.data;
-          console.log('User Addresses:', this.userAddresses[0].id);
-          // اجعل أول عنوان هو الافتراضي فقط إذا لم يكن هناك اختيار سابق
           if (!this.selectedAddressId || !this.userAddresses.some(addr => addr.id === this.selectedAddressId)) {
             this.selectedAddressId = this.userAddresses[0].id;
           }
         } else {
           this.userAddresses = [];
-          this.selectedAddressId = 0; // لعرض فورم إضافة عنوان جديد إذا لم يوجد عناوين
+          this.selectedAddressId = 0;
         }
       }
     });
@@ -243,5 +277,3 @@ userId: number | null = null; // أضف هذا المتغير في الكلاس
     this.selectedAddressId = event.value;
   }
 }
-
-

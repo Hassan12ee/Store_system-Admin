@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Enviroment } from '../../../base/Enviroment';
 import { address } from '../../interfaces/data';
@@ -38,9 +38,36 @@ export class OrderService {
       headers: this.userTokenHeader
     });
   }
-  getUserAddresses(userId: number) {
-    return this._HttpClient.get<any>(`${Enviroment.baseUrl}/api/employee/users/${userId}/addresses`, {
+    getOrders(params?: any): Observable<any> {
+          let httpParams = new HttpParams();
+
+    if (params) {
+      Object.keys(params).forEach(key => {
+        if (params[key] !== null && params[key] !== undefined && params[key] !== '') {
+          httpParams = httpParams.set(key, params[key]);
+        }
+      });
+    }
+
+    return this._HttpClient.get(`${Enviroment.baseUrl}/api/employee/orders`, { 
+      params: httpParams,
       headers: this.userTokenHeader
     });
+  }
+  getUserAddresses(userId: number) {
+    return this._HttpClient.get<any>(`${Enviroment.baseUrl}/api/employee/orders/users/${userId}/addresses`, {
+      headers: this.userTokenHeader
+    });
+  }
+  addAddress(userId: number, addressData: any) {
+    return this._HttpClient.post<any>(`${Enviroment.baseUrl}/api/employee/orders/users/${userId}/addresses`, addressData, {
+      headers: this.userTokenHeader
+    });
+  }
+    updateOrder(orderId: number, updatedData: any): Observable<any> {
+    return this._HttpClient.put(`${Enviroment.baseUrl}/api/employee/orders/${orderId}`, updatedData, { headers: this.userTokenHeader });
+  }
+  getOrderById(id: string): Observable<any> {
+    return this._HttpClient.get(`${Enviroment.baseUrl}/api/employee/orders/${id}`, { headers: this.userTokenHeader });
   }
 }

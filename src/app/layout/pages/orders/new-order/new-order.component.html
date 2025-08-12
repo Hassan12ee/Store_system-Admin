@@ -26,6 +26,7 @@
 
   <h4>Address</h4>
 <!-- عرض العناوين الموجودة -->
+
 <div *ngIf="userConfirmed && userAddresses.length > 0 && selectedAddressId !== 0">
   <h4>اختر عنوان:</h4>
   <mat-radio-group [value]="selectedAddressId" (change)="onAddressChange($event)">
@@ -39,7 +40,7 @@
   </mat-radio-group>
 </div>
 
-<!-- عرض فورم إضافة عنوان جديد فقط لو اختار "إضافة عنوان جديد" -->
+<!-- عرض فورم إضافة عنوان جديد وزرار "إضافة" -->
 <div *ngIf="userConfirmed && selectedAddressId === 0">
   <mat-form-field appearance="fill">
     <input matInput placeholder="Governorate" formControlName="governorate">
@@ -50,10 +51,15 @@
   <mat-form-field appearance="fill">
     <input matInput placeholder="Street" formControlName="street">
   </mat-form-field>
-</div>
+  <mat-form-field appearance="fill">
+    <textarea matInput placeholder="Comments" formControlName="comments"></textarea>
+  </mat-form-field>
 
-<!-- عرض فورم إضافة عنوان جديد فقط لو اختار "إضافة عنوان جديد" -->
-<div *ngIf="!userConfirmed">
+  <button mat-raised-button color="primary" type="button" (click)="addNewAddressForUser()">
+    إضافة العنوان
+  </button>
+</div>
+<div *ngIf="!userConfirmed ">
   <mat-form-field appearance="fill">
     <input matInput placeholder="Governorate" formControlName="governorate">
   </mat-form-field>
@@ -63,10 +69,12 @@
   <mat-form-field appearance="fill">
     <input matInput placeholder="Street" formControlName="street">
   </mat-form-field>
-</div>
   <mat-form-field appearance="fill">
     <textarea matInput placeholder="Comments" formControlName="comments"></textarea>
   </mat-form-field>
+
+</div>
+
 
   <h4>Order Items</h4>
   <div formArrayName="order_items">
