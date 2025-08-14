@@ -2,8 +2,8 @@
   @if (isLogin==true) {
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-          <a class="sidebar-brand brand-logo" routerLink="/Home"><img src="assets/images/logo.svg" alt="logo" /></a>
-          <a class="sidebar-brand brand-logo-mini" routerLink="/Home"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo" routerLink="/Home"><img src="assets/images/Red_Sea_E-Commerce_Logo_Design-removebg-preview.png" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo-mini" routerLink="/Home"><img src="assets/images/Red_Sea_E-Commerce_Logo_Design-removebg-preview.png" alt="logo" /></a>
         </div>
         <ul class="nav">
           <li class="nav-item profile">
@@ -100,7 +100,8 @@
                               <li class="nav-item menu-items" *ngIf="hasPermission('view_storage')">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic3" aria-expanded="false" aria-controls="ui-basic3">
               <span class="menu-icon">
-                <i class="mdi mdi-account-multiple-outline"></i>
+                <i class="mdi mdi-clipboard-account
+"></i>
               </span>
               <span class="menu-title">Storage</span>
               <i class="menu-arrow"></i>
@@ -115,11 +116,11 @@
                               <li class="nav-item menu-items" *ngIf="hasPermission('view_Role')">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic4" aria-expanded="false" aria-controls="ui-basic4">
               <span class="menu-icon">
-                <i class="mdi mdi-account-multiple-outline"></i>
+                <i class="mdi mdi-security"></i>
               </span>
               <span class="menu-title">Role</span>
               <i class="menu-arrow"></i>
-            </a>
+            </a>  
             <div class="collapse" id="ui-basic4">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item" *ngIf="hasPermission('view_Role')"> <a class="nav-link" routerLink="/roles">all Roles</a></li>
@@ -130,7 +131,7 @@
                               <li class="nav-item menu-items" *ngIf="hasPermission('view_products')">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic5" aria-expanded="false" aria-controls="ui-basic5">
               <span class="menu-icon">
-                <i class="mdi mdi-account-multiple-outline"></i>
+                <i class="mdi mdi-window-closed"></i>
               </span>
               <span class="menu-title">Products</span>
               <i class="menu-arrow"></i>
@@ -145,7 +146,7 @@
           <li class="nav-item menu-items" *ngIf="hasPermission('view_orders')">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic6" aria-expanded="false" aria-controls="ui-basic6">
               <span class="menu-icon">
-                <i class="mdi mdi-account-multiple-outline"></i>
+                <i class="mdi mdi-cart"></i>
               </span>
               <span class="menu-title">Orders</span>
               <i class="menu-arrow"></i>
@@ -313,7 +314,7 @@
                 <a class="nav-link" id="profileDropdown" href="#" data-bs-toggle="dropdown">
                   <div class="navbar-profile">
                     <img class="img-xs rounded-circle" src="" alt="ha">
-                    <p class="mb-0 d-none d-sm-block navbar-profile-name">Hassan</p>
+                    <p class="mb-0 d-none d-sm-block navbar-profile-name">{{name}}</p>
                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                   </div>
                 </a>

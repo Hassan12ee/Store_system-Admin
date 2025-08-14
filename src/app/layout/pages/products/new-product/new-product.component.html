@@ -1,1 +1,50 @@
-<p>new-product works!</p>
+<div class="product-form-container">
+  <h2>Add New Product</h2>
+
+<form [formGroup]="productForm" (ngSubmit)="submit()" class="product-form">
+
+  <mat-form-field appearance="outline">
+    <mat-label>Product Name</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Quantity</mat-label>
+    <input type="number" matInput formControlName="quantity">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Price</mat-label>
+    <input type="number" matInput formControlName="price">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Warehouse ID</mat-label>
+    <input type="number" matInput formControlName="warehouse_id">
+  </mat-form-field>
+
+  <!-- Attribute selector -->
+ <mat-form-field appearance="outline">
+  <mat-label>Attributes</mat-label>
+  <mat-select formControlName="attribute_values" multiple>
+    <mat-optgroup *ngFor="let attr of attributes" [label]="attr.name">
+      <mat-option *ngFor="let val of attr.values" [value]="val.id">
+        <span *ngIf="val.colorCode" class="color-box" [style.background]="val.colorCode"></span>
+        {{ val.name }}
+      </mat-option>
+    </mat-optgroup>
+  </mat-select>
+</mat-form-field>
+
+  <!-- Photos -->
+  <label>Product Photos:</label>
+  <input type="file" (change)="onPhotosSelected($event)" multiple>
+
+  <!-- Variant Photo -->
+  <label>Variant Photo:</label>
+  <input type="file" (change)="onVariantPhotoSelected($event)">
+
+  <button mat-raised-button color="primary" type="submit">Save Product</button>
+</form>
+
+</div>

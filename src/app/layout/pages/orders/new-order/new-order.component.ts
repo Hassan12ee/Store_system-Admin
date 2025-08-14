@@ -194,34 +194,34 @@ export class NewOrderComponent {
       sendOrder();
     
   }
-addNewAddressForUser() {
-  if (!this.userId) {
-    this.message = 'لا يوجد مستخدم محدد';
-    return;
-  }
-
-  const addressData = {
-    governorate: this.form.get('governorate')?.value,
-    city: this.form.get('city')?.value,
-    street: this.form.get('street')?.value,
-    comments: this.form.get('comments')?.value
-  };
-
-  this._OrderService.addAddress(this.userId, addressData).subscribe({
-    next: (res) => {
-      if (res?.data?.id) {
-        this.message = 'تمت إضافة العنوان بنجاح';
-              if(this.userId !== null )
-        this.getUserAddresses(this.userId); // تحديث القائمة
-        this.selectedAddressId = res.data.id; // تحديد العنوان الجديد
-      }
-    },
-    error: (err) => {
-      console.error(err);
-      this.message = 'خطأ أثناء إضافة العنوان';
+  addNewAddressForUser() {
+    if (!this.userId) {
+      this.message = 'لا يوجد مستخدم محدد';
+      return;
     }
-  });
-}
+
+    const addressData = {
+      governorate: this.form.get('governorate')?.value,
+      city: this.form.get('city')?.value,
+      street: this.form.get('street')?.value,
+      comments: this.form.get('comments')?.value
+    };
+
+    this._OrderService.addAddress(this.userId, addressData).subscribe({
+      next: (res) => {
+        if (res?.data?.id) {
+          this.message = 'تمت إضافة العنوان بنجاح';
+                if(this.userId !== null )
+          this.getUserAddresses(this.userId); // تحديث القائمة
+          this.selectedAddressId = res.data.id; // تحديد العنوان الجديد
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.message = 'خطأ أثناء إضافة العنوان';
+      }
+    });
+  }
   getProduct(productId: number) {
     return this.products.find(p => p.id == productId);
   }

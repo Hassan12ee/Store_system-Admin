@@ -16,7 +16,16 @@
 
     <mat-form-field appearance="outline" style="flex: 1 1 200px;">
       <mat-label>Status</mat-label>
-      <input matInput [(ngModel)]="filters.status" name="status">
+      <mat-select [(ngModel)]="filters.status" name="status">
+        <mat-option value="">All</mat-option>
+        <mat-option value="ordered">Ordered</mat-option>
+        <mat-option value="confirmed">Confirmed</mat-option>
+        <mat-option value="packing">Packing</mat-option>
+        <mat-option value="shipped_to_carrier">Shipped to Carrier</mat-option>
+        <mat-option value="out_for_delivery">Out for Delivery</mat-option>
+        <mat-option value="delivered">Delivered</mat-option>
+        <mat-option value="cancelled">Cancelled</mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="outline" style="flex: 1 1 200px;">
@@ -49,74 +58,85 @@
   <div *ngIf="loading" style="text-align:center; margin: 20px 0;">
     <mat-spinner diameter="40"></mat-spinner>
   </div>
+<!-- Orders Table -->
+<table mat-table [dataSource]="orders" class="mat-elevation-z8" *ngIf="!loading && orders.length">
 
-  <!-- Orders Table -->
-  <table mat-table [dataSource]="orders" class="mat-elevation-z8" *ngIf="!loading && orders.length">
+  <!-- ID Column -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> ID </th>
+    <td mat-cell *matCellDef="let order"> {{ order.order_id }} </td>
+  </ng-container>
 
-    <!-- ID Column -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> ID </th>
-      <td mat-cell *matCellDef="let order"> {{ order.id }} </td>
-    </ng-container>
-
-    <!-- Order ID Column -->
-    <ng-container matColumnDef="order_id">
-      <th mat-header-cell *matHeaderCellDef> Order ID </th>
-      <td mat-cell *matCellDef="let order"> {{ order.order_id }} </td>
-    </ng-container>
-
-    <!-- Status Column -->
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef> Status </th>
-      <td mat-cell *matCellDef="let order">
-        <span [ngClass]="order.status.toLowerCase()">{{ order.status }}</span>
-      </td>
-    </ng-container>
-
-    <!-- Order Date Column -->
-    <ng-container matColumnDef="order_date">
-      <th mat-header-cell *matHeaderCellDef> Order Date </th>
-      <td mat-cell *matCellDef="let order"> {{ order.order_date }} </td>
-    </ng-container>
+  <!-- Status Column -->
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status </th>
+    <td mat-cell *matCellDef="let order">
+      <span class="status" [ngClass]="order.status.toLowerCase()">{{ order.status }}</span>
+    </td>
+  </ng-container>
 
     <!-- Customer Name -->
-    <ng-container matColumnDef="customer_name">
-      <th mat-header-cell *matHeaderCellDef> Customer </th>
-      <td mat-cell *matCellDef="let order"> {{ order.customer_name || '-' }} </td>
-    </ng-container>
+  <ng-container matColumnDef="customer_name">
+    <th mat-header-cell *matHeaderCellDef> Customer </th>
+    <td mat-cell *matCellDef="let order"> {{ order.customer_name || '-' }} </td>
+  </ng-container>
 
-    <!-- Address -->
-    <ng-container matColumnDef="address">
-      <th mat-header-cell *matHeaderCellDef> Address </th>
-      <td mat-cell *matCellDef="let order"> {{ order.address }} </td>
-    </ng-container>
+    <!-- Order ID Column -->
+  <ng-container matColumnDef="Phone">
+    <th mat-header-cell *matHeaderCellDef> Phone </th>
+    <td mat-cell *matCellDef="let order"> {{ order.Phone }} </td>
+  </ng-container>
 
-    <!-- Total Items -->
-    <ng-container matColumnDef="total_items">
-      <th mat-header-cell *matHeaderCellDef> Total Items </th>
-      <td mat-cell *matCellDef="let order"> {{ order.total_items }} </td>
-    </ng-container>
+  <!-- Order Date Column -->
+  <ng-container matColumnDef="Governorate">
+    <th mat-header-cell *matHeaderCellDef> Governorate </th>
+    <td mat-cell *matCellDef="let order"> {{ order.address.governorate }} </td>
+  </ng-container>
 
-    <!-- Created At -->
-    <ng-container matColumnDef="created_at">
-      <th mat-header-cell *matHeaderCellDef> Created At </th>
-      <td mat-cell *matCellDef="let order"> {{ order.created_at | date:'short' }} </td>
-    </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openOrderDetails(row)" class="clickable-row"></tr>
-  </table>
 
-  <!-- Pagination -->
+  <!-- Address -->
+  <ng-container matColumnDef="address">
+    <th mat-header-cell *matHeaderCellDef> City </th>
+    <td mat-cell *matCellDef="let order"> {{ order.address.city }} </td>
+  </ng-container>
+
+  <!-- Total Items -->
+  <ng-container matColumnDef="total_items">
+    <th mat-header-cell *matHeaderCellDef> Total Items </th>
+    <td mat-cell *matCellDef="let order"> {{ order.total_items }} </td>
+  </ng-container>
+
+  <!-- Created At -->
+  <ng-container matColumnDef="created_at">
+    <th mat-header-cell *matHeaderCellDef> Created At </th>
+    <td mat-cell *matCellDef="let order"> {{ order.created_at | date:'short' }} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+  <!-- Clickable Row -->
+  <tr 
+    mat-row 
+    *matRowDef="let row; columns: displayedColumns;" 
+    class="clickable-row"
+    [routerLink]="['/orders/edit', row.order_id]">
+  </tr>
+
+</table>
   <mat-paginator
-    [length]="totalOrders"
-    [pageSize]="10"
-    [pageIndex]="currentPage - 1"
-    (page)="changePage($event)">
-  </mat-paginator>
+  [length]="total"
+  [pageSize]="perPage"
+  [pageIndex]="currentPage - 1"
+  [pageSizeOptions]="[5, 10, 20, 50]"
+  showFirstLastButtons
+  (page)="changePage($event)">
+</mat-paginator>
+
 
   <!-- No Data -->
   <div class="no-data" *ngIf="!loading && orders.length === 0" style="text-align:center; margin-top:20px;">
     No orders found.
   </div>
+
 </div>

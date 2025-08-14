@@ -1,7 +1,6 @@
 import { NotfoundComponent } from './layout/additions/notfound/notfound.component';
 import { HomeComponent } from './layout/pages/home/home.component';
 import { Routes } from '@angular/router';
-import { ProductsComponent } from './layout/pages/products/products.component';
 import { LoginComponent } from './layout/pages/login/login.component';
 import { authGuard } from './shared/guards/auth.guard';
 import { ForgetpasswordComponent } from './layout/additions/forgetpassword/forgetpassword.component';
@@ -35,7 +34,6 @@ import { EditOrdersComponent } from './layout/pages/orders/edit-orders/edit-orde
 export const routes: Routes = [
   { path:"",redirectTo:"Home",pathMatch:"full"},
   { path: "Home", component: HomeComponent, canActivate :[authGuard], },
-  { path: "Products",component:ProductsComponent, canActivate :[authGuard] },
   { path: "login",component:LoginComponent},
   { path: "ForGetPassword",component:ForgetpasswordComponent },
   { path: "verifyEmail",component:verifyEmailComponent },

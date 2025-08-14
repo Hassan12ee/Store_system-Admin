@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { OrderService } from '../../../../shared/services/order/order.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 // Angular Material
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -21,7 +21,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 @Component({
   selector: 'app-all-orders',
   standalone: true,
-  imports: [    CommonModule,
+  imports: [
+     RouterModule,
+    CommonModule,
     FormsModule,
     // Angular Material
     MatFormFieldModule,
@@ -95,37 +97,34 @@ getOrders(page: number = 1) {
     });
 }
 
-openOrderDetails(order: any) {
-  this.router.navigate(['/orders/edit', order.id]);
+
+resetFilters() {
+  this.filters = {
+    governorate: '',
+    city: '',
+    status: '',
+    order_id: '',
+    customer_id: '',
+    from: '',
+    to: ''
+  };
+  this.currentPage = 1;
+  this.getOrders();
 }
 
-
-  resetFilters() {
-    this.filters = {
-      governorate: '',
-      city: '',
-      status: '',
-      order_id: '',
-      customer_id: '',
-      from: '',
-      to: ''
-    };
-    this.getOrders();
-  }
-
-    editOrder(orderId: number) {
-    this.router.navigate(['/orders/edit', orderId]);
-  }
+  
   displayedColumns: string[] = [
-  'id', 'order_id', 'status', 'order_date',
-  'customer_name', 'address', 'total_items', 'created_at'
+  'id',  'status','customer_name','Phone', 'Governorate',
+   'address', 'total_items', 'created_at'
 ];
 
 totalOrders = 0;
 
 changePage(event: PageEvent) {
   this.currentPage = event.pageIndex + 1;
-  this.getOrders();
+  this.perPage = event.pageSize; // تحديث حجم الصفحة
+  this.getOrders(this.currentPage);
 }
+
 
 }

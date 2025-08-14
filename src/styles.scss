@@ -20030,9 +20030,9 @@ div.tagsinput {
       margin: auto; } }
 
 .auth .brand-logo {
-  margin-bottom: 2rem; }
+  margin-bottom: 3rem; }
   .auth .brand-logo img {
-    width: 150px; }
+    width: 250px; }
 
 .auth form .auth-form-btn {
   height: 50px;
@@ -20115,9 +20115,9 @@ div.tagsinput {
       .navbar .navbar-brand-wrapper .navbar-brand.brand-logo-mini {
         display: none; }
         .navbar .navbar-brand-wrapper .navbar-brand.brand-logo-mini img {
-          width: calc(70px - 50px);
+          width: calc(150px - 100px);
           max-width: 100%;
-          height: 28px;
+          height: 50px;
           margin: auto; }
   .navbar .navbar-menu-wrapper {
     transition: width 0.25s ease;
@@ -20387,22 +20387,22 @@ div.tagsinput {
       font-size: 1.5rem;
       line-height: 48px;
       margin-right: 0;
-      padding: 0rem 0rem 0rem 1.3rem;
+      padding: 0rem 0rem 0rem 0rem;
       width: 100%; }
       .sidebar .sidebar-brand-wrapper .sidebar-brand:active, .sidebar .sidebar-brand-wrapper .sidebar-brand:focus, .sidebar .sidebar-brand-wrapper .sidebar-brand:hover {
         color: #252b3e; }
       .sidebar .sidebar-brand-wrapper .sidebar-brand img {
-        width: calc(244px - 120px);
+        width: calc(350px - 190px);
         max-width: 100%;
-        height: 28px;
+        height: 120px;
         margin: auto;
         vertical-align: middle; }
       .sidebar .sidebar-brand-wrapper .sidebar-brand.brand-logo-mini {
         display: none; }
         .sidebar .sidebar-brand-wrapper .sidebar-brand.brand-logo-mini img {
-          width: calc(70px - 50px);
+          width: calc(200px - 50px);
           max-width: 100%;
-          height: 28px;
+          height: 90px;
           margin: auto; }
   .sidebar .nav {
     overflow: hidden;
@@ -20713,7 +20713,7 @@ div.tagsinput {
   .sidebar-icon-only .sidebar {
     width: 70px; }
     .sidebar-icon-only .sidebar .sidebar-brand-wrapper {
-      width: 70px; }
+      width: 200px; }
       .sidebar-icon-only .sidebar .sidebar-brand-wrapper .brand-logo {
         display: none; }
       .sidebar-icon-only .sidebar .sidebar-brand-wrapper .brand-logo-mini {

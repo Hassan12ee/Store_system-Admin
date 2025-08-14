@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
-import { WishListService } from '../../../shared/services/wishlist/wish-list.service';
+
 
 
 @Component({
@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   arr !:string[];
   userWord:string='';
 
-  constructor(private _ProductService:ProductService,private toastr:ToastrService, private _WishListService:WishListService ){}
+  constructor(private _ProductService:ProductService,private toastr:ToastrService){}
   ngOnInit(): void {
     if( typeof localStorage!= 'undefined')
    localStorage.setItem('currentpage','/Home')
