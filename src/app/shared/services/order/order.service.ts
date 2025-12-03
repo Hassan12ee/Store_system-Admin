@@ -1,8 +1,9 @@
+import { Order } from './../../interfaces/order';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Enviroment } from '../../../base/Enviroment';
 import { address } from '../../interfaces/data';
-import { OrderRes } from '../../interfaces/order';
+import { Governorate, OrderRes, responseGovernorates } from '../../interfaces/order';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -55,14 +56,44 @@ export class OrderService {
 
   /** الحصول على عناوين المستخدم */
   getUserAddresses(userId: number) {
-    return this._HttpClient.get<any>(`${Enviroment.baseUrl}/api/employee/orders/users/${userId}/addresses`, {
+    return this._HttpClient.get<any>(`${Enviroment.baseUrl}/api/employee/users/${userId}/addresses`, {
       headers: this.userTokenHeader
     });
   }
-
+  getCitiesByGovernorate(governorateId: number): Observable<any> {
+    return this._HttpClient.get<any>(`${Enviroment.baseUrl}/api/employee/cities/${governorateId}`, {
+      headers: this.userTokenHeader
+    });
+  }
+  deleteProductFromOrder(order_detailid: number): Observable<any> {
+      return this._HttpClient.delete(`${Enviroment.baseUrl}/api/employee/orders/${order_detailid}`, {
+        headers: this.userTokenHeader
+      });
+    }
+  
+  getgovernorates(): Observable<responseGovernorates> {
+    return this._HttpClient.get<responseGovernorates>(`${Enviroment.baseUrl}/api/employee/governorates`, {
+      headers: this.userTokenHeader
+    });
+  }
+    Confirmation(): Observable<any> {
+    return this._HttpClient.get<any>(`${Enviroment.baseUrl}/api/employee/orders/Confirmation`, {
+      headers: this.userTokenHeader
+    });
+  }
+  logAtttempt(attemptData:any): Observable<any> {
+    return this._HttpClient.post<any>(`${Enviroment.baseUrl}/api/employee/orders/logattempt`,attemptData,{
+      headers:this.userTokenHeader
+    });
+  }
+    endConfirmation(attemptData:any): Observable<any> {
+    return this._HttpClient.post<any>(`${Enviroment.baseUrl}/api/employee/orders/end-confirmation`,attemptData,{
+      headers:this.userTokenHeader
+    });
+  }
   /** إضافة عنوان جديد للمستخدم */
   addAddress(userId: number, addressData: any) {
-    return this._HttpClient.post<any>(`${Enviroment.baseUrl}/api/employee/orders/users/${userId}/addresses`, addressData, {
+    return this._HttpClient.post<any>(`${Enviroment.baseUrl}/api/employee/users/${userId}/addresses`, addressData, {
       headers: this.userTokenHeader
     });
   }
@@ -79,7 +110,7 @@ export class OrderService {
 
   /** تحديث عنوان المستخدم */
   updateaddress(UserId: number, updatedData: any): Observable<any> {
-    return this._HttpClient.put(`${Enviroment.baseUrl}/api/employee/orders/${UserId}/address`, updatedData, { headers: this.userTokenHeader });
+    return this._HttpClient.put(`${Enviroment.baseUrl}/api/employee/${UserId}/address`, updatedData, { headers: this.userTokenHeader });
   }
 
   /** الحصول على طلب بواسطة ID */

@@ -7,44 +7,37 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatIconModule } from '@angular/material/icon';
+
 @Component({
-  selector: 'app-new-product',
+  selector: 'app-new-ProductVariant',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    MatFormFieldModule,
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule,
+        MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatRadioModule,
+    MatButtonModule
   ],
-  templateUrl: './new-product.component.html',
-  styleUrl: './new-product.component.scss'
+  templateUrl: './new-ProductVariant.component.html',
+  styleUrl: './new-ProductVariant.component.scss'
 })
-export class NewProductComponent implements OnInit{
-    productForm!: FormGroup;
+export class NewProductVariantComponent implements OnInit{
+  productForm!: FormGroup;
   photos: File[] = [];
   variantPhoto: File | null = null;
-attributes: { name: string, values: { id: number, name: string, colorCode?: string }[] }[] = [];
+  attributes: { name: string, values: { id: number, name: string, colorCode?: string }[] }[] = [];
 
 
 
   constructor(private fb: FormBuilder, private productService: ProductService) {}
   ngOnInit(): void {
     if( typeof localStorage!= 'undefined')
-   localStorage.setItem('currentpage','/products/new')
+      localStorage.setItem('currentpage','/products/new')
       this.productForm = this.fb.group({
       name_Ar: ['', Validators.required],
       name_En: ['', Validators.required],
       specifications: [''],
-      brand_id: [''],
-      category_id: [''],
+      brand_id: ['', Validators.required],
+      category_id: ['', Validators.required],
     
       sku_Ar: ['', Validators.required],
       sku_En: ['', Validators.required],
@@ -55,7 +48,6 @@ attributes: { name: string, values: { id: number, name: string, colorCode?: stri
       warehouse_id: ['', Validators.required],
       warehouse_quantity: [0],
       attribute_values: [[]]   
-      
     });
     this.productService.getAllAttributesWithValues().subscribe((data) => {
   // تحويل الـ Object إلى Array مناسبة لـ mat-optgroup
@@ -72,38 +64,12 @@ attributes: { name: string, values: { id: number, name: string, colorCode?: stri
 });
 
   }
-  previewImages: string[] = [];
-  previewImage: string[] = [];
   onPhotosSelected(event: any) {
     this.photos = Array.from(event.target.files);
-      const files: FileList = event.target.files;
-  this.previewImages = []; // clear old preview
-
-  Array.from(files).forEach(file => {
-    const reader = new FileReader();
-
-    reader.onload = (e: any) => {
-      this.previewImages.push(e.target.result);  // Base64 image
-    };
-
-    reader.readAsDataURL(file);
-  });
   }
 
   onVariantPhotoSelected(event: any) {
     this.variantPhoto = event.target.files[0];
-          const files: FileList = event.target.files;
-  this.previewImage = []; // clear old preview
-
-  Array.from(files).forEach(file => {
-    const reader = new FileReader();
-
-    reader.onload = (e: any) => {
-      this.previewImage.push(e.target.result);  // Base64 image
-    };
-
-    reader.readAsDataURL(file);
-  });
   }
 
   submit() {

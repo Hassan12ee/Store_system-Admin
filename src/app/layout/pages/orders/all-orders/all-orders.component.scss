@@ -26,11 +26,7 @@
     margin: 20px 0;
   }
 
-  table {
-    width: 100%;
-    margin-top: 15px;
-  }
-
+ 
   .status {
     padding: 3px 8px;
     border-radius: 4px;
@@ -59,19 +55,22 @@
 .orders-table {
     width: 100%;
     border-collapse: collapse;
+    background-color: transparent;
+    color: #ffffff;
+     td {
+    
+    
+      color: #ffffff;
 
-    th, td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
     }
 
-    th {
-      background-color: #f8f9fa;
-      font-weight: bold;
-    }
 
-    tr:hover {
-      background-color: #f1f1f1;
-    }
+ .mat-paginator .mat-select-trigger {
+  background-color: white !important;  // خلفية المربع
+  color: black !important;             // لون النص
+  border-radius: 4px;                  // اختيارياً لتقريب الحواف
+  padding: 2px 6px;                    // مساحة داخلية
+}
+
+
   }

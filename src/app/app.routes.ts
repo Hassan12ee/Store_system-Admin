@@ -24,11 +24,14 @@ import { NewRoleComponent } from './layout/pages/roles/new-role/new-role.compone
 // Products
 import { AllProductsComponent } from './layout/pages/products/all-products/all-products.component';
 import { NewProductComponent } from './layout/pages/products/new-product/new-product.component';
+import { EditProductsComponent } from './layout/pages/products/edit-products/edit-products.component';
 
 // Orders
 import { AllOrdersComponent } from './layout/pages/orders/all-orders/all-orders.component';
 import { NewOrderComponent } from './layout/pages/orders/new-order/new-order.component';
 import { EditOrdersComponent } from './layout/pages/orders/edit-orders/edit-orders.component';
+// import { EditProductComponent } from './layout/pages/products/edit-product/edit-product.component';
+import { confirmationComponent } from './layout/pages/orders/confirmation/confirmation.component';
 
 
 export const routes: Routes = [
@@ -50,6 +53,8 @@ export const routes: Routes = [
   { path: 'orders', component: AllOrdersComponent, canActivate :[authGuard] },
   { path: 'orders/new', component: NewOrderComponent, canActivate :[authGuard] },
   { path: "orders/edit/:ID", component: EditOrdersComponent, canActivate :[authGuard] },
+  { path: "orders/confirmation", component: confirmationComponent, canActivate :[authGuard] },
+  { path: "products/edit/:ID", component: EditProductsComponent, canActivate :[authGuard] },
 //{
 //   path: 'products/edit',
 //   component: EditProductComponent,

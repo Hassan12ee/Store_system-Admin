@@ -15,11 +15,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { OrderSuccessDialogComponent } from './order-success-dialog.component';
 import { FormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-new-order',
   standalone: true,
   imports: [
+    MatTooltipModule,
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -37,13 +39,13 @@ import { MatRadioModule } from '@angular/material/radio';
 })
 export class NewOrderComponent {
   Math = Math;
-
   fb = inject(FormBuilder);
   http = inject(HttpClient);
-
   form: FormGroup;
   formex!: FormGroup;
   products: any[] = [];
+  Cities: any[] = [];
+  Governorates: any[] = [];
   loading = false;
   message = '';
   totalPrice = 0;
@@ -68,13 +70,14 @@ export class NewOrderComponent {
       phone: ['', Validators.required],
       address_id: [''],
       governorate: [''],
-      city: ['' ],
+      city: [''],
       street: [''],
       comments: [''],
       order_items: this.fb.array([this.createItem()])
     });
 
     this.loadProducts();
+    this.loadGovernorate();
     this.form.valueChanges.subscribe(() => this.calculateTotal());
 
     this.orderItems.controls.forEach((item, i) =>
@@ -116,6 +119,43 @@ export class NewOrderComponent {
     this.orderItems.removeAt(index);
   }
 
+  loadGovernorate(): void {
+    this._OrderService.getgovernorates().subscribe({
+      next: res => {
+        this.Governorates = res.data;
+        },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
+  
+  getProductName(index: number): string {
+    const productId = this.orderItems.at(index).get('product_id')?.value;
+    if (!productId) return 'Select Product';
+    
+    const product = this.getProduct(productId);
+    return product ? product.name_Ar + ' ' + product.sku_Ar : 'Select Product';
+  }
+
+  onGovernorateChange(governorateId: number): void {
+    // تفريغ المدن القديمة
+    this.Cities = [];
+
+
+    if (!governorateId) return;
+
+    // تحميل المدن حسب المحافظة
+    this._OrderService.getCitiesByGovernorate(governorateId).subscribe({
+      next: (res) => {
+        this.Cities = res.data || [];
+      },
+      error: (err) => {
+        console.error('Error loading cities:', err);
+      }
+    });
+  }
+
   loadProducts(): void {
     this._ProductService.getallproducts().subscribe({
       next: res => {
@@ -151,49 +191,47 @@ export class NewOrderComponent {
 
     this.loading = true;
 
-    const sendOrder = () => {
-      const payload = {
-        ...this.form.value,
-        address_id: this.selectedAddressId !== 0 ? this.selectedAddressId : null
-      };
-
-      let request$;
-      if (this.userExists === true) {
-        request$ = this._OrderService.orderExistingUser(payload);
-      } else {
-        request$ = this._OrderService.orderfg(payload);
-      }
-
-      request$.subscribe({
-        next: (res) => {
-          this.message = 'Order submitted successfully';
-
-
-          if (res?.data) {
-            this.dialog.open(OrderSuccessDialogComponent, {
-              data: res.data,
-              disableClose: true
-            }
-          
-            ).afterClosed().subscribe(() => {
-                        this.form.reset();
-          this.orderItems.clear();
-          this.addItem();
-            });
-          }
-        },
-        error: (err) => {
-          this.message = 'Error submitting order';
-          console.error(err);
-        },
-        complete: () => {
-          this.loading = false;
-        }
-      });
+    const payload = {
+      ...this.form.value,
+      address_id: this.selectedAddressId !== 0 ? this.selectedAddressId : null
     };
-      sendOrder();
-    
+
+    const request$ = this.userExists
+      ? this._OrderService.orderExistingUser(payload)
+      : this._OrderService.orderfg(payload);
+
+    request$.subscribe({
+      next: (res) => {
+        this.message = 'Order submitted successfully';
+
+        if (res?.data) {
+          this.dialog.open(OrderSuccessDialogComponent, {
+            data: res.data,
+            disableClose: true
+          })
+          .afterClosed()
+          .subscribe(() => {
+            // ✅ إعادة ضبط الفورم والقيم بعد إغلاق الـ dialog
+            this.form.reset(); 
+
+            // ✅ مسح العناصر في orderItems
+            this.orderItems.clear();
+
+            // ✅ إعادة إضافة عنصر افتراضي (لو عندك)
+            this.addItem();
+          });
+        }
+      },
+      error: (err) => {
+        this.message = 'Error submitting order';
+        console.error(err);
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
   }
+
   addNewAddressForUser() {
     if (!this.userId) {
       this.message = 'لا يوجد مستخدم محدد';
@@ -222,8 +260,9 @@ export class NewOrderComponent {
       }
     });
   }
+
   getProduct(productId: number) {
-    return this.products.find(p => p.id == productId);
+    return this.products.find(p => p.sku_id == productId);
   }
 
   isProductSelected(productId: number, currentIndex: number): boolean {
@@ -262,6 +301,7 @@ export class NewOrderComponent {
       next: res => {
         if (res.status && res.data && res.data.length) {
           this.userAddresses = res.data;
+          console.log(this.userAddresses);
           if (!this.selectedAddressId || !this.userAddresses.some(addr => addr.id === this.selectedAddressId)) {
             this.selectedAddressId = this.userAddresses[0].id;
           }

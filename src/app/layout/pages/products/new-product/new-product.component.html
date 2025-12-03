@@ -1,50 +1,120 @@
-<div class="product-form-container">
-  <h2>Add New Product</h2>
-
+<div class="page-header">
+  <h1 class="page-title">Add New Product</h1>
+</div> 
 <form [formGroup]="productForm" (ngSubmit)="submit()" class="product-form">
+<div class="row">
+  <div class="col-2 grid-margin" ></div>
+  <div class="col-8 grid-margin" >
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title">Main Info</h2>
+        <mat-form-field appearance="fill" class="col-md-6 px-2">
+          <mat-label>Product Name in arabic</mat-label>
+          <input matInput formControlName="name_Ar">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col-md-6 px-2">
+          <mat-label>Product Name in english</mat-label>
+          <input matInput formControlName="name_En">
+        </mat-form-field>
+          <mat-form-field appearance="fill" class="col-md-12 px-2">
+          <mat-label>specifications</mat-label>
+          <textarea matInput formControlName="specifications"></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col-md-6 px-2">
+          <mat-label>brand_id</mat-label>
+          <input type="number" matInput formControlName="brand_id">
+        </mat-form-field>  
+        <mat-form-field appearance="fill" class="col-md-6 px-2">
+          <mat-label>category_id</mat-label>
+          <input type="number" matInput formControlName="category_id">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="col-2 grid-margin" ></div>
+  <div class="col-2 grid-margin" ></div>
+  <div class="col-8 grid-margin" >
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title">Variant Info</h2>
+        <mat-form-field appearance="fill" class="col-md-6 px-2">
+          <mat-label>sku  in arabic</mat-label>
+          <input matInput formControlName="sku_Ar">
+        </mat-form-field>
+          <mat-form-field appearance="fill" class="col-md-6 px-2">
+          <mat-label>sku in english</mat-label>
+          <input matInput formControlName="sku_En">
+        </mat-form-field>
+          <mat-form-field appearance="fill" class="col-md-4 px-2" >
+          <mat-label>Price</mat-label>
+          <input type="number" matInput formControlName="price" >
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col-md-4 px-2">
+          <mat-label>Quantity</mat-label>
+          <input type="number" matInput formControlName="quantity">
+        </mat-form-field>  
+          <mat-form-field appearance="fill" class="col-md-4 px-2">
+          <mat-label>dimensions</mat-label>
+          <input matInput formControlName="dimensions">
+        </mat-form-field>
+          <mat-form-field appearance="fill" class="col-md-4 px-2">
+          <mat-label>weight</mat-label>
+          <input matInput formControlName="weight">
+        </mat-form-field>
+          <mat-form-field appearance="fill"class="col-md-4 px-2">
+          <mat-label>Warehouse ID</mat-label>
+          <input type="number" matInput formControlName="warehouse_id">
+        </mat-form-field>
+          <mat-form-field appearance="fill" class="col-md-4 px-2">
+          <mat-label>warehouse quantity</mat-label>
+          <input matInput formControlName="warehouse_quantity">
+        </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Product Name</mat-label>
-    <input matInput formControlName="name">
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>Quantity</mat-label>
-    <input type="number" matInput formControlName="quantity">
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>Price</mat-label>
-    <input type="number" matInput formControlName="price">
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>Warehouse ID</mat-label>
-    <input type="number" matInput formControlName="warehouse_id">
-  </mat-form-field>
-
-  <!-- Attribute selector -->
- <mat-form-field appearance="outline">
-  <mat-label>Attributes</mat-label>
-  <mat-select formControlName="attribute_values" multiple>
-    <mat-optgroup *ngFor="let attr of attributes" [label]="attr.name">
-      <mat-option *ngFor="let val of attr.values" [value]="val.id">
-        <span *ngIf="val.colorCode" class="color-box" [style.background]="val.colorCode"></span>
-        {{ val.name }}
-      </mat-option>
-    </mat-optgroup>
-  </mat-select>
-</mat-form-field>
-
-  <!-- Photos -->
-  <label>Product Photos:</label>
-  <input type="file" (change)="onPhotosSelected($event)" multiple>
-
-  <!-- Variant Photo -->
-  <label>Variant Photo:</label>
-  <input type="file" (change)="onVariantPhotoSelected($event)">
-
-  <button mat-raised-button color="primary" type="submit">Save Product</button>
-</form>
-
+        <!-- Attribute selector -->
+      <mat-form-field appearance="fill" class="col-12 px-2">
+        <mat-label>Attributes</mat-label>
+        <mat-select formControlName="attribute_values" multiple>
+          <mat-optgroup *ngFor="let attr of attributes" [label]="attr.name">
+            <mat-option *ngFor="let val of attr.values" [value]="val.id">
+              <span *ngIf="val.colorCode" class="color-box" [style.background]="val.colorCode"></span>
+              {{ val.name }}
+            </mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+      </div>
+    </div>  
+  </div>
+  <div class="col-2 grid-margin" ></div>
+  <div class="col-2 grid-margin" ></div>
+  <div class="col-8 grid-margin" >
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title">Product Photos</h2>
+        <!-- Photos -->
+         <div class="col-12 px-2 ">
+        <label>Product Photos:</label>
+        <input type="file" (change)="onPhotosSelected($event)" multiple>
+        </div>
+        <div class="preview-container col-12 mt-3 px-2">
+  <img *ngFor="let img of previewImages"
+       [src]="img"
+       class="preview-image col-md-4" />
 </div>
+        <div class="col-12 mt-3 px-2 ">
+        <!-- Variant Photo -->
+        <label>Variant Photo:</label>
+        <input type="file" (change)="onVariantPhotoSelected($event)">
+        </div>
+                <div class="preview-container col-12 mt-3 px-2">
+  <img *ngFor="let img of previewImage"
+       [src]="img"
+       class="preview-image col-md-4" />
+</div>
+      </div>
+    </div>  
+  </div>
+  <div class="col-2 grid-margin" ></div>
+  <button mat-raised-button color="primary" type="submit">Save Product</button>
+</div>
+</form>

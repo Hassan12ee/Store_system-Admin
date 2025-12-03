@@ -154,6 +154,7 @@
             <div class="collapse" id="ui-basic6">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item" *ngIf="hasPermission('view_orders')"> <a class="nav-link" routerLink="/orders">All Orders</a></li>
+                <li class="nav-item" *ngIf="hasPermission('view_orders')"> <a class="nav-link" routerLink="orders/confirmation">Confirmation</a></li>
                 <li class="nav-item" *ngIf="hasPermission('add_orders')"> <a class="nav-link" routerLink="/orders/new">New Orders</a></li>
               </ul>
             </div>

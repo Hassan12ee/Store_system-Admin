@@ -1,1 +1,107 @@
-<p>all-products works!</p>
+<div class="row orders-container">
+
+  <!-- Filters -->
+     <div class="col-xxl-3 grid-margin stretch-card">
+        <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">Filter Products</h2>
+  <form (ngSubmit)="getProducts()" class="filters" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end;">
+    <mat-form-field appearance="fill" style="flex: 1 1 200px;">
+      <mat-label>Search</mat-label>
+      <input matInput type="text" [(ngModel)]="filters.search" name="search">
+    </mat-form-field>
+
+     <!--
+    <mat-form-field appearance="fill" style="flex: 1 1 200px;">
+      <mat-label>search b</mat-label>  
+      <mat-select
+    name="governorate"
+    [(ngModel)]="filters.governorate"
+    (selectionChange)="onGovernorateChange($event.value)">
+    <mat-option
+      *ngFor="let Governorate of Governorates"      
+      [disabled]="!Governorate.is_active_shipping"
+      [value]="Governorate.id">
+         <span
+      >
+      {{ Governorate.governorate_name_ar }}
+      </span>
+    </mat-option>
+  </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="flex: 1 1 200px;">
+      <mat-label>City</mat-label>
+        <mat-select [(ngModel)]="filters.city" name="city" >
+    <mat-option *ngFor="let city of Cities" [value]="city.id"
+      [disabled]="!city.is_active_shipping">
+      {{ city.city_name_ar }}
+    </mat-option>
+  </mat-select>
+
+    </mat-form-field>
+
+-->
+
+    <div style="display: flex; gap: 10px; margin-left: auto;">
+      <button mat-raised-button color="primary" type="submit">Search</button>
+      <button mat-stroked-button color="warn" type="button" (click)="resetFilters()">Reset</button>
+    </div>
+  </form> 
+</div>
+</div>
+</div>
+
+
+  <div class="col-xxl-9 grid-margin stretch-card" >
+
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">All Products</h2>
+      
+      
+      <!-- Loading Spinner -->
+      <div *ngIf="loading" style="text-align:center; margin: 20px 0;">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+      <div class="row " *ngIf="!loading && Products.length">
+<!-- Products Table -->
+      <div class="col-md-6 grid-margin stretcg-card " *ngFor="let item of Products">
+          <div class=" product-card" [routerLink]="['/products/edit', item.product_id]">
+          <div class="card-body w-100">
+            <div class="row">
+            <img [src]="item.main_photo" class="col-3" alt="Product Image" style="object-fit: cover; margin-right: 15px;">
+            <div class="col-9">
+
+            <div class="d-flex align-items-center ">
+              <div>
+                <h3 class="mb-1 text-muted ">{{ item.name_Ar }}</h3>
+                <p class="mb-0 text-muted">ID: {{ item.product_id }} |
+                    Brand: {{ item.brand?.brand_name_Ar || 'N/A' }} |
+                    Category: {{ item.category?.category_name_Ar || 'N/A' }}</p>
+              </div>
+              </div>
+            </div>
+            </div>
+          </div>
+          </div>
+      </div>
+      </div>
+  <mat-paginator class="mat-elevation-z8 mat-paginator"
+  [length]="total"
+  [pageSize]="perPage"
+  [pageIndex]="currentPage - 1"
+  [pageSizeOptions]="[5, 10, 20, 50]"
+  showFirstLastButtons
+  (page)="changePage($event)">
+</mat-paginator>
+
+
+  <!-- No Data -->
+  <div class="no-data" *ngIf="!loading && Products.length === 0" style="text-align:center; margin-top:20px;">
+    No Products found.
+  </div>
+</div>
+  </div>
+  </div>
+</div>

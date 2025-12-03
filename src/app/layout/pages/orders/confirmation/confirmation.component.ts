@@ -1,7 +1,8 @@
+import { address } from './../../../../shared/interfaces/data';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -10,11 +11,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { OrderService } from './../../../../shared/services/order/order.service';
-import { ProductService } from './../../../../shared/services/product/product.service';
+import { OrderService } from '../../../../shared/services/order/order.service';
+import { ProductService } from '../../../../shared/services/product/product.service';
+
+import { Console } from 'console';
+import e from 'express';
 
 @Component({
-  selector: 'app-edit-orders',
+  selector: 'app-confirmation',
   standalone: true,
   imports: [
     CommonModule,
@@ -29,13 +33,15 @@ import { ProductService } from './../../../../shared/services/product/product.se
    MatTooltipModule,
     MatRadioModule
   ],
-  templateUrl: './edit-orders.component.html',
-  styleUrls: ['./edit-orders.component.scss']
+  templateUrl: './confirmation.component.html',
+  styleUrls: ['./confirmation.component.scss']
 })
-export class EditOrdersComponent implements OnInit {
+export class confirmationComponent implements OnInit {
   Math = Math;
-  id: string = '';
   order: any;
+  id: any ;
+  secendTry: boolean = false;
+  session_id:string='';
   products: any[] = [];
   userAddresses: any[] = [];
   Cities: any[] = [];
@@ -43,14 +49,18 @@ export class EditOrdersComponent implements OnInit {
   selectedAddressId: number = 0;
   userId: number | null = null;
   totalPrice: number = 0;
-  message = '';
+  message_order = '';
+  message_call = '';
+  message_whatsapp = '';
+  message_addres = '';
   loading = false;
-
+  confirmationMessage: string = '';
+  copied = false;
+  ConfirmationStatus = 'go';
   fb = inject(FormBuilder);
   http = inject(HttpClient);
 
   form: FormGroup = this.fb.group({
-    status: [''],
     first_name: [''],
     last_name: [''],
     email: [''],
@@ -62,6 +72,25 @@ export class EditOrdersComponent implements OnInit {
     comments: [''],
     order_items: this.fb.array([this.createItem()])
   });
+calling_AttemptForm: FormGroup = this.fb.group({
+  order_id: [''],
+  method: [''],
+  status: ['', Validators.required],
+  attempt_number: [''],
+});
+
+whatsapp_AttemptForm: FormGroup = this.fb.group({
+  order_id: [''],
+  method: ['' ],
+  status: ['', Validators.required],
+  attempt_number: [''],
+});
+
+
+  endConfirmationForm = new FormGroup({
+  status: new FormControl('', Validators.required),
+  ConfirmationStatus: new FormControl('go', Validators.required),
+});
 
   constructor(
     private route: ActivatedRoute,
@@ -72,14 +101,14 @@ export class EditOrdersComponent implements OnInit {
   ngOnInit(): void {
   
       this.route.params.subscribe(params => {
-        this.id = params['ID'];
         if (typeof localStorage !== 'undefined') {
-          localStorage.setItem('currentpage', `/orders/edit/${this.id}`);
+          localStorage.setItem('currentpage', `/orders/confirmation`);
         }
-        this.getOrderById().then(() => {
+        this.ConfirmOrderById().then(() => {
       
           this.loadProducts();
           this.loadGovernorate();
+          this.buildConfirmationMessage();
         });
       });
 
@@ -99,17 +128,20 @@ export class EditOrdersComponent implements OnInit {
     return this.form.get('order_items') as FormArray;
   }
 
-  getOrderById():  Promise<void> {
+  ConfirmOrderById():  Promise<void> {
     return new Promise((resolve, reject) => {
     this.loading = true;
-    this.orderService.getOrderById(this.id).subscribe({
+    this.orderService.Confirmation().subscribe({
       next: res => {
         this.order = res.data;
-        // console.log(this.order.items[0].id);
+      
         if (res.data.customer?.id) {
           this.userId = res.data.customer.id;
           this.getUserAddresses(res.data.customer.id);
         }
+        this.secendTry=res.secendTry;
+        this.session_id=res.session_id;
+        this.id=res.data.order_id;
         this.fillFormWithData(res.data);
         this.loading = false;
         resolve();
@@ -125,7 +157,6 @@ export class EditOrdersComponent implements OnInit {
 
   fillFormWithData(order: any): void {
       this.form.patchValue({
-        status: order.status || '',
         first_name: order.customer.FristName || '',
         last_name: order.customer.LastName || '',
         email: order.customer.email || '',
@@ -165,7 +196,7 @@ export class EditOrdersComponent implements OnInit {
 
   addItem(productId?: number): void {
     if (productId && this.isProductSelected(productId, -1)) {
-      this.message = 'هذا المنتج مضاف بالفعل في الطلب';
+      this.message_order = 'هذا المنتج مضاف بالفعل في الطلب';
       return;
     }
     const item = this.createItem();
@@ -175,6 +206,7 @@ export class EditOrdersComponent implements OnInit {
     this.setupProductPriceListener(item);
     this.orderItems.push(item);
   }
+
 
   removeItem(index: number): void {
     const itemGroup = this.orderItems.at(index) as FormGroup;
@@ -187,11 +219,11 @@ export class EditOrdersComponent implements OnInit {
           // بعد الحذف من السيرفر نحذفه من الفورم
           this.orderItems.removeAt(index);
           this.calculateTotal();
-          this.message = 'تم حذف المنتج من الطلب بنجاح';
+          this.message_order = 'تم حذف المنتج من الطلب بنجاح';
         },
         error: err => {
           console.error(err);
-          this.message = 'حدث خطأ أثناء حذف المنتج من الطلب';
+          this.message_order = 'حدث خطأ أثناء حذف المنتج من الطلب';
         }
       });
     } else {
@@ -293,7 +325,7 @@ export class EditOrdersComponent implements OnInit {
 
       // منع اختيار المنتج نفسه في عنصر آخر
       if (this.isProductSelected(productId, index)) {
-        this.message = 'هذا المنتج مضاف بالفعل';
+        this.message_order = 'هذا المنتج مضاف بالفعل';
         item.get('product_id')?.setValue(prevValue, { emitEvent: false });
         return;
       }
@@ -329,7 +361,7 @@ export class EditOrdersComponent implements OnInit {
 
   addNewAddressForUser(): void {
     if (!this.userId) {
-      this.message = 'لا يوجد مستخدم محدد';
+      this.message_addres = 'لا يوجد مستخدم محدد';
       return;
     }
 
@@ -343,7 +375,7 @@ export class EditOrdersComponent implements OnInit {
     this.orderService.addAddress(this.userId, addressData).subscribe({
       next: res => {
         if (res?.data?.id) {
-          this.message = 'تمت إضافة العنوان بنجاح';
+          this.message_addres = 'تمت إضافة العنوان بنجاح';
           if (this.userId !== null)
             this.getUserAddresses(this.userId);
           this.selectedAddressId = res.data.id;
@@ -351,7 +383,7 @@ export class EditOrdersComponent implements OnInit {
       },
       error: err => {
         console.error(err);
-        this.message = 'خطأ أثناء إضافة العنوان';
+        this.message_addres = 'خطأ أثناء إضافة العنوان';
       }
     });
   }
@@ -359,10 +391,148 @@ export class EditOrdersComponent implements OnInit {
   onAddressChange(event: any): void {
     this.selectedAddressId = event.value;
   }
+  calling_Attempt(): void {
+    if (this.calling_AttemptForm.invalid) {
+      this.message_call = 'يرجى ملء جميع الحقول المطلوبة';
+      return;
+    }
+    var logAttempt: any = {};
+    this.loading = true;
+    if (this.secendTry){
+      const logAttempt = {
+      order_id: this.id,
+      status: this.calling_AttemptForm.get('status')?.value || '',
+      method:'call',
+      attempt_number:2
+      };
+    }else{
+      logAttempt = {
+      order_id: this.id,
+      status: this.calling_AttemptForm.get('status')?.value || '',
+      method:'call',
+      attempt_number:1
+      };
+    }
+        this.orderService.logAtttempt(logAttempt).subscribe({
+      next: res => {
+        this.loading = false;
+
+          this.message_call = 'تم إرسال محاولة التأكيد بنجاح';
+        this.calling_AttemptForm.reset();
+       
+      },
+      error: err => {
+        console.error(err);
+        this.loading = false;
+        this.message_call = 'خطأ أثناء إرسال محاولة التأكيد';
+      }
+    });
+  }
+
+  buildConfirmationMessage() {
+    const customerName = `${this.order.customer.FristName} ${this.order.customer.LastName}`;
+  const orderItems = this.order.items.map((i: { product_name: string; quantity: number }) => `${i.product_name} × ${i.quantity}`).join(', ');
+    const orderTotal = this.order.total_price + ' جنيه';
+    const paymentMethod = 'كاش عند الاستلام';
+    const fullAddress = ` ${this.order.address.governorate.governorate_name_ar}
+    ,${this.order.address.city.city_name_ar} ,${this.order.address.street}`;
+    const storeName = 'متجر جلاكسي';
+
+    this.confirmationMessage = `
+  أهلاً ${customerName}،
+  حضرتك قمت بطلب: ${orderItems}
+  قيمة الطلب: ${orderTotal}
+  طريقة الدفع: ${paymentMethod}
+  هيتم الشحن على العنوان:
+  ${fullAddress}
+
+  يُرجى تأكيد الطلب بالرد بـ "مؤكد" أو التعديل لو في حاجة محتاجة تتغير.
+  شكراً لاختيارك ${storeName}
+    `;
+    
+  }
+
+  copyMessage() {
+    navigator.clipboard.writeText(this.confirmationMessage).then(() => {
+      this.copied = true;
+      setTimeout(() => this.copied = false, 2000);
+    });
+  }
+
+  whatsapp_Attempt(): void {
+    this.message_whatsapp = 'تم إرسال محاولة التأكيد بنجاح';
+        if (this.whatsapp_AttemptForm.invalid) {
+      this.message_whatsapp = 'يرجى ملء جميع الحقول المطلوبة';
+      return;
+    }
+    var logAttempt: any = {};
+    this.loading = true;
+    if (this.secendTry){
+      const logAttempt = {
+      order_id: this.id,
+      status: this.whatsapp_AttemptForm.get('status')?.value || '',
+      method:'whatsapp',
+      attempt_number:2
+      };
+    }else{
+      logAttempt = {
+      order_id: this.id,
+      status: this.whatsapp_AttemptForm.get('status')?.value || '',
+      method:'whatsapp',
+      attempt_number:1
+      };
+    }
+        this.orderService.logAtttempt(logAttempt).subscribe({
+      next: res => {
+        this.loading = false;
+        
+          this.message_whatsapp = 'تم إرسال محاولة التأكيد بنجاح';
+         this.whatsapp_AttemptForm.reset();
+       
+      },
+      error: err => {
+        console.error(err);
+        this.loading = false;
+        this.message_whatsapp = 'خطأ أثناء إرسال محاولة التأكيد';
+      }
+    });
+  }
+
+  endConfirmation(): void {
+    if (this.endConfirmationForm.invalid) {
+      this.message_whatsapp = 'يرجى ملء جميع الحقول المطلوبة';
+      return;
+    }
+
+    this.loading = true;
+
+    const logAttempt = {
+      session_id: this.session_id,
+      final_status: this.endConfirmationForm.get('status')?.value || '',
+    };
+
+    const isGo = this.endConfirmationForm.get('ConfirmationStatus')?.value === 'go';
+
+    this.orderService.endConfirmation(logAttempt).subscribe({
+      next: res => {
+        this.loading = false;
+        this.message_whatsapp = 'تم إرسال محاولة التأكيد بنجاح';
+        this.endConfirmationForm.reset();
+        if (isGo) {
+          this.ConfirmOrderById();
+        }
+      },
+      error: err => {
+        console.error(err);
+        this.loading = false;
+        this.message_whatsapp = 'خطأ أثناء إرسال محاولة التأكيد';
+      }
+    });
+  }
 
   submit(): void {
     if (this.form.invalid) {
-      this.message = 'يرجى ملء جميع الحقول المطلوبة';
+      this.message_order = 'يرجى ملء جميع الحقول المطلوبة';
       return;
     }
     this.loading = true;
@@ -383,7 +553,6 @@ export class EditOrdersComponent implements OnInit {
     }));
 
     const orderData = {
-      status: this.form.get('status')?.value,
       address_id: this.selectedAddressId,
       customer: customerData,
       items: itemsData
@@ -393,14 +562,15 @@ export class EditOrdersComponent implements OnInit {
       next: res => {
         this.loading = false;
         
-          this.message = 'تم تحديث الطلب بنجاح';
-          this.getOrderById();
+          this.message_order = 'تم تحديث الطلب بنجاح';
+          this.ConfirmOrderById();
+          this.buildConfirmationMessage();
        
       },
       error: err => {
         console.error(err);
         this.loading = false;
-        this.message = 'خطأ أثناء تحديث الطلب';
+        this.message_order = 'خطأ أثناء تحديث الطلب';
       }
     });
   }

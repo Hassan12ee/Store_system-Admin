@@ -1,5 +1,6 @@
-import { Product, Products } from './../../interfaces/product';
-import { HttpClient } from '@angular/common/http';
+import { InAddProduct, ProductsResponse } from './../../interfaces/product';
+
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Enviroment } from '../../../base/Enviroment';
@@ -16,13 +17,39 @@ export class ProductService {
   constructor(private _Httpclient:HttpClient) { }
 
   /** الحصول على جميع المنتجات */
-  getallproducts():Observable<Products>
-  {
-     return this._Httpclient.get<Products>(`${Enviroment.baseUrl}/api/employee/products/`,{
-      headers:this.userTokenHeader
+
+    getallproducts(params?: any): Observable<any> {
+          let httpParams = new HttpParams();
+
+    if (params) {
+      Object.keys(params).forEach(key => {
+        if (params[key] !== null && params[key] !== undefined && params[key] !== '') {
+          httpParams = httpParams.set(key, params[key]);
+        }
+      });
+    }
+
+    return this._Httpclient.get(`${Enviroment.baseUrl}/api/employee/products/`, { 
+      params: httpParams,
+      headers: this.userTokenHeader
     });
   }
+      getallproductsv(params?: any): Observable<any> {
+          let httpParams = new HttpParams();
 
+    if (params) {
+      Object.keys(params).forEach(key => {
+        if (params[key] !== null && params[key] !== undefined && params[key] !== '') {
+          httpParams = httpParams.set(key, params[key]);
+        }
+      });
+    }
+
+    return this._Httpclient.get(`${Enviroment.baseUrl}/api/employee/products/p`, { 
+      params: httpParams,
+      headers: this.userTokenHeader
+    });
+  }
   /** الحصول على منتج حسب الـ ID */
   getProductById(productId:string):Observable<any>
   {
@@ -30,7 +57,7 @@ export class ProductService {
       headers:this.userTokenHeader
     });
   }
-      addNewProduct(data:any):Observable<any>
+      addNewProduct(data:FormData):Observable<any>
     {
        return this._Httpclient.post(`${Enviroment.baseUrl}/api/employee/products`, data, {
         headers:this.userTokenHeader
@@ -38,7 +65,7 @@ export class ProductService {
     }
   /** تحديث منتج */
   updateProduct(productId:string, data:any):Observable<any> {
-    return this._Httpclient.put(`${Enviroment.baseUrl}/api/employee/products/${productId}`, data, {
+    return this._Httpclient.put<any>(`${Enviroment.baseUrl}/api/employee/products/${productId}`, data, {
       headers: this.userTokenHeader
     });
   } 
@@ -81,7 +108,7 @@ export class ProductService {
     });
   }
     getAllAttributesWithValues(): Observable<any> {
-    return this._Httpclient.get(`${Enviroment.baseUrl}/api/employee/products/getAllAttributes`, {
+    return this._Httpclient.get(`${Enviroment.baseUrl}/api/employee/products/showAttributes`, {
       headers: this.userTokenHeader
     });
   }

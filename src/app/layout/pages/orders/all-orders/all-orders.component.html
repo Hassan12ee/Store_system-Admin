@@ -1,25 +1,48 @@
-<div class="orders-container mat-elevation-z2">
-
-  <h2>Orders</h2>
+<div class="row">
 
   <!-- Filters -->
+     <div class="col-lg-3 grid-margin stretch-card">
+        <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">Filter Orders</h2>
   <form (ngSubmit)="getOrders()" class="filters" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end;">
-    <mat-form-field appearance="outline" style="flex: 1 1 200px;">
-      <mat-label>Governorate</mat-label>
-      <input matInput [(ngModel)]="filters.governorate" name="governorate">
+    <mat-form-field appearance="fill" style="flex: 1 1 200px;">
+      <mat-label>Governorate</mat-label>  
+      <mat-select
+    name="governorate"
+    [(ngModel)]="filters.governorate"
+    (selectionChange)="onGovernorateChange($event.value)">
+    <mat-option
+      *ngFor="let Governorate of Governorates"      
+      [disabled]="!Governorate.is_active_shipping"
+      [value]="Governorate.id">
+         <span
+      >
+      {{ Governorate.governorate_name_ar }}
+      </span>
+    </mat-option>
+  </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" style="flex: 1 1 200px;">
+    <mat-form-field appearance="fill" style="flex: 1 1 200px;">
       <mat-label>City</mat-label>
-      <input matInput [(ngModel)]="filters.city" name="city">
+        <mat-select [(ngModel)]="filters.city" name="city" >
+    <mat-option *ngFor="let city of Cities" [value]="city.id"
+      [disabled]="!city.is_active_shipping">
+      {{ city.city_name_ar }}
+    </mat-option>
+  </mat-select>
+
     </mat-form-field>
 
-    <mat-form-field appearance="outline" style="flex: 1 1 200px;">
+    <mat-form-field appearance="fill" style="flex: 1 1 200px;">
       <mat-label>Status</mat-label>
       <mat-select [(ngModel)]="filters.status" name="status">
         <mat-option value="">All</mat-option>
-        <mat-option value="ordered">Ordered</mat-option>
+        <mat-option value="pending_confirmation">pending confirmation</mat-option>
+        <mat-option value="being_confirmed">Being confirmed</mat-option>
         <mat-option value="confirmed">Confirmed</mat-option>
+        <mat-option value="not_confirmed">Not Confirmed</mat-option>
         <mat-option value="packing">Packing</mat-option>
         <mat-option value="shipped_to_carrier">Shipped to Carrier</mat-option>
         <mat-option value="out_for_delivery">Out for Delivery</mat-option>
@@ -28,22 +51,22 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" style="flex: 1 1 200px;">
+    <mat-form-field appearance="fill" style="flex: 1 1 200px;">
       <mat-label>Order ID</mat-label>
       <input matInput type="number" [(ngModel)]="filters.order_id" name="order_id">
     </mat-form-field>
 
-    <mat-form-field appearance="outline" style="flex: 1 1 200px;">
+    <mat-form-field appearance="fill" style="flex: 1 1 200px;">
       <mat-label>Customer ID</mat-label>
       <input matInput type="number" [(ngModel)]="filters.customer_id" name="customer_id">
     </mat-form-field>
 
-    <mat-form-field appearance="outline" style="flex: 1 1 200px;">
+    <mat-form-field appearance="fill" style="flex: 1 1 200px;">
       <mat-label>From</mat-label>
       <input matInput type="date" [(ngModel)]="filters.from" name="from">
     </mat-form-field>
 
-    <mat-form-field appearance="outline" style="flex: 1 1 200px;">
+    <mat-form-field appearance="fill" style="flex: 1 1 200px;">
       <mat-label>To</mat-label>
       <input matInput type="date" [(ngModel)]="filters.to" name="to">
     </mat-form-field>
@@ -53,14 +76,26 @@
       <button mat-stroked-button color="warn" type="button" (click)="resetFilters()">Reset</button>
     </div>
   </form>
+</div>
+</div>
+</div>
 
-  <!-- Loading Spinner -->
+
+  <div class="col-xl-9 grid-margin stretch-card" >
+
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">All Orders</h2>
+      
+      
+      <!-- Loading Spinner -->
   <div *ngIf="loading" style="text-align:center; margin: 20px 0;">
     <mat-spinner diameter="40"></mat-spinner>
   </div>
+  <div class="table-responsive" *ngIf="!loading && orders.length">
 <!-- Orders Table -->
-<table mat-table [dataSource]="orders" class="mat-elevation-z8" *ngIf="!loading && orders.length">
-
+  <table mat-table [dataSource]="orders" class="mat-elevation-z8 orders-table table table-hover" >
+ 
   <!-- ID Column -->
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef> ID </th>
@@ -90,7 +125,7 @@
   <!-- Order Date Column -->
   <ng-container matColumnDef="Governorate">
     <th mat-header-cell *matHeaderCellDef> Governorate </th>
-    <td mat-cell *matCellDef="let order"> {{ order.address.governorate }} </td>
+    <td mat-cell *matCellDef="let order"> {{ order.address.governorate.governorate_name_ar }} </td>
   </ng-container>
 
 
@@ -98,7 +133,7 @@
   <!-- Address -->
   <ng-container matColumnDef="address">
     <th mat-header-cell *matHeaderCellDef> City </th>
-    <td mat-cell *matCellDef="let order"> {{ order.address.city }} </td>
+    <td mat-cell *matCellDef="let order"> {{ order.address.city.city_name_ar }} </td>
   </ng-container>
 
   <!-- Total Items -->
@@ -124,7 +159,7 @@
   </tr>
 
 </table>
-  <mat-paginator
+  <mat-paginator class="mat-elevation-z8 mat-paginator"
   [length]="total"
   [pageSize]="perPage"
   [pageIndex]="currentPage - 1"
@@ -138,5 +173,7 @@
   <div class="no-data" *ngIf="!loading && orders.length === 0" style="text-align:center; margin-top:20px;">
     No orders found.
   </div>
-
+</div>
+  </div>
+  </div>
 </div>

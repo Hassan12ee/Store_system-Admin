@@ -45,7 +45,8 @@ export class AllOrdersComponent implements OnInit {
   perPage = 10;
   total = 0;
   lastPage = 1;
-  
+    Cities: any[] = [];
+  Governorates: any[] = [];
   filters = {
     governorate: '',
     city: '',
@@ -63,6 +64,7 @@ export class AllOrdersComponent implements OnInit {
     if( typeof localStorage!= 'undefined')
    localStorage.setItem('currentpage','/orders')
   this.getOrders();
+  this.loadGovernorate();
   }
 getOrders(page: number = 1) {
   this.loading = true;
@@ -125,6 +127,34 @@ changePage(event: PageEvent) {
   this.perPage = event.pageSize; // تحديث حجم الصفحة
   this.getOrders(this.currentPage);
 }
+  loadGovernorate(): void {
+    this.orderService.getgovernorates().subscribe({
+      next: res => {
+        this.Governorates = res.data;
+        },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
 
+
+onGovernorateChange(governorateId: number): void {
+  // تفريغ المدن القديمة
+  this.Cities = [];
+
+
+  if (!governorateId) return;
+
+  // تحميل المدن حسب المحافظة
+  this.orderService.getCitiesByGovernorate(governorateId).subscribe({
+    next: (res) => {
+      this.Cities = res.data || [];
+    },
+    error: (err) => {
+      console.error('Error loading cities:', err);
+    }
+  });
+}
 
 }
