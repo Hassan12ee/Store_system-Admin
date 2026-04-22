@@ -16,13 +16,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialog } from '@angular/material/dialog';
 
 
-// Flex Layout (اختياري للـ responsive)
-import { FlexLayoutModule } from '@angular/flex-layout';
+
 @Component({
   selector: 'app-all-orders',
   standalone: true,
   imports: [
-     RouterModule,
+    RouterModule,
     CommonModule,
     FormsModule,
     // Angular Material
@@ -33,9 +32,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatIconModule,
-    MatSelectModule,
-    // Flex Layout
-    FlexLayoutModule],
+    MatSelectModule],
   templateUrl: './all-orders.component.html',
   styleUrl: './all-orders.component.scss'
 })

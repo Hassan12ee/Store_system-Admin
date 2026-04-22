@@ -13,7 +13,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialog } from '@angular/material/dialog';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { ProductService } from '../../../../shared/services/product/product.service';
 @Component({
   selector: 'app-all-products',
@@ -30,9 +29,7 @@ import { ProductService } from '../../../../shared/services/product/product.serv
         MatPaginatorModule,
         MatProgressSpinnerModule,
         MatIconModule,
-        MatSelectModule,
-        // Flex Layout
-        FlexLayoutModule
+        MatSelectModule
   ],
   templateUrl: './all-products.component.html',
   styleUrl: './all-products.component.scss'

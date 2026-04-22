@@ -39,7 +39,7 @@ export class EditProductsComponent {
 
   Math = Math;
   id: string = '';
-  product: any[] = [];
+  product: any = {};
   userAddresses: any[] = [];
   Cities: any[] = [];
   Governorates: any[] = [];
