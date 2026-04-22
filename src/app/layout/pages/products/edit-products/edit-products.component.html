@@ -5,6 +5,13 @@
         <div class="card-body">
             <h2 class="card-title">Product Details</h2>
             <form [formGroup]="form" (ngSubmit)="submit()">
-                
+                    <app-product-image-edit
+  [images]="product.images"
+  [mainIndex]="product.main_image_index"
+  (mainChanged)="updateMainImage($event)"
+  (imageDeleted)="deleteImage($event)"
+  (imagesAdded)="uploadNewImages($event)"
+></app-product-image-edit>
+
             </form>
 </div>

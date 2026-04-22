@@ -1,0 +1,48 @@
+<div class="images-wrapper">
+
+  <!-- Main Image -->
+  <div class="main-image" (click)="openLightbox(images[mainIndex])">
+    <img [src]="images[mainIndex]" />
+  </div>
+
+  <!-- Thumbnails -->
+  <div class="thumbs">
+    <ng-container *ngFor="let img of displayThumbs; let i = index">
+      <div class="thumb-box">
+        <img
+          [src]="img"
+          class="thumb"
+          [class.active]="images.indexOf(img) === mainIndex"
+          (click)="setMain(images.indexOf(img))"
+        />
+
+        <button class="delete-btn" (click)="deleteImage(images.indexOf(img))">✖</button>
+      </div>
+    </ng-container>
+
+    <!-- More +X -->
+    <div *ngIf="extraCount > 0" class="more">+{{ extraCount }}</div>
+
+    <!-- Upload Button -->
+    <label class="upload-thumb">
+      +
+      <input type="file" multiple hidden (change)="uploadImages($event)" />
+    </label>
+  </div>
+
+  <!-- Drag & Drop Zone -->
+  <div
+    class="drop-zone"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+    [class.active]="dropActive"
+  >
+    Drop Images Here or Click +
+  </div>
+</div>
+
+<!-- Lightbox Popup -->
+<div class="lightbox" *ngIf="lightboxImage" (click)="closeLightbox()">
+  <img [src]="lightboxImage" />
+</div>

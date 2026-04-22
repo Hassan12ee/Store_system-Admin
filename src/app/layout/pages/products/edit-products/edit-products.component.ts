@@ -12,13 +12,13 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { OrderService } from './../../../../shared/services/order/order.service';
 import { ProductService } from './../../../../shared/services/product/product.service';
-import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
+import { ProductImageEditComponent } from '../../../additions/product-image-edit/product-image-edit.component';
+
 @Component({
   selector: 'app-edit-products',
   standalone: true,
   imports: [
 
-    CarouselModule,
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -29,36 +29,14 @@ import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
     MatButtonModule,
     MatIconModule,
    MatTooltipModule,
-    MatRadioModule
+    MatRadioModule,
+    ProductImageEditComponent
   ],
   templateUrl: './edit-products.component.html',
   styleUrl: './edit-products.component.scss'
 })
 export class EditProductsComponent {
-   customOptions: OwlOptions = {
-    loop: true,
-    mouseDrag: false,
-    touchDrag: false,
-    pullDrag: false,
-    dots: false,
-    navSpeed: 700,
-    navText: ['', ''],
-    responsive: {
-      0: {
-        items: 1
-      },
-      400: {
-        items: 2
-      },
-      740: {
-        items: 3
-      },
-      940: {
-        items: 4
-      }
-    },
-    nav: true
-  }
+
   Math = Math;
   id: string = '';
   product: any[] = [];
@@ -97,6 +75,22 @@ export class EditProductsComponent {
 
   }
 
+  
+updateMainImage(i: number) {
+  this.product.main_image_index = i;
+  // API → Update main image
+}
+
+deleteImage(i: number) {
+  const imageName = this.product.images[i];
+  // API → Delete image
+  this.product.images.splice(i, 1);
+}
+
+uploadNewImages(files: File[]) {
+  // API رفع الملفات
+  // بعد النجاح: push الصورة الجديدة في this.product.images
+}
 
   getProductsById():  Promise<void> {
     return new Promise((resolve, reject) => {
