@@ -2,7 +2,7 @@ import { address } from './../../../../shared/interfaces/data';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProductService } from '../../../../shared/services/product/product.service';
 import { OrderService } from '../../../../shared/services/order/order.service';
@@ -24,7 +24,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTooltipModule,
     CommonModule,
     ReactiveFormsModule,
-    HttpClientModule,
+    
+// TODO: `HttpClientModule` should not be imported into a component directly.
+// Please refactor the code to add `provideHttpClient()` call to the provider list in the
+// application bootstrap logic and remove the `HttpClientModule` import from this component.
+HttpClientModule,
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
