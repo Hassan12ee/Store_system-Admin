@@ -6,11 +6,10 @@ import { ForgetpasswordComponent } from '../forgetpassword/forgetpassword.compon
 import { AuthService } from '../../../shared/services/auth/auth.service';
 import { Router } from '@angular/router';
 @Component({
-  selector: 'app-reset-code',
-  standalone: true,
-  imports: [ForgetpasswordComponent ,ReactiveFormsModule],
-  templateUrl: './reset-code.component.html',
-  styleUrl: './reset-code.component.scss'
+    selector: 'app-reset-code',
+    imports: [ForgetpasswordComponent, ReactiveFormsModule],
+    templateUrl: './reset-code.component.html',
+    styleUrl: './reset-code.component.scss'
 })
 export class ResetCodeComponent implements OnInit {
   constructor(private _AuthService:AuthService , private _Router:Router ,private _FlowbiteService:FlowbiteService ) { }

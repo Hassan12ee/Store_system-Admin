@@ -8,11 +8,10 @@ import { FormsModule } from '@angular/forms';
 
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [FormsModule, RouterLink],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+    selector: 'app-home',
+    imports: [FormsModule, RouterLink],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
   isLoading:boolean=false;

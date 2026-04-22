@@ -21,8 +21,9 @@
     </ng-container>
 
     <!-- More +X -->
-    <div *ngIf="extraCount > 0" class="more">+{{ extraCount }}</div>
-
+    @if(extraCount > 0){
+      <div class="more" > {{ extraCount }}</div>
+    }
     <!-- Upload Button -->
     <label class="upload-thumb">
       +
@@ -43,6 +44,8 @@
 </div>
 
 <!-- Lightbox Popup -->
-<div class="lightbox" *ngIf="lightboxImage" (click)="closeLightbox()">
+ @if(lightboxImage){
+<div class="lightbox"  (click)="closeLightbox()">
   <img [src]="lightboxImage" />
 </div>
+}

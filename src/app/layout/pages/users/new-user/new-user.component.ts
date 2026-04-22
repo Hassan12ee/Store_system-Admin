@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-new-user',
-  standalone: true,
-  imports: [],
-  templateUrl: './new-user.component.html',
-  styleUrl: './new-user.component.scss'
+    selector: 'app-new-user',
+    imports: [],
+    templateUrl: './new-user.component.html',
+    styleUrl: './new-user.component.scss'
 })
 export class NewUserComponent implements OnInit{
   ngOnInit(): void {

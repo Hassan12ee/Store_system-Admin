@@ -18,23 +18,23 @@ import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
-  selector: 'app-all-orders',
-  standalone: true,
-  imports: [
-    RouterModule,
-    CommonModule,
-    FormsModule,
-    // Angular Material
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatIconModule,
-    MatSelectModule],
-  templateUrl: './all-orders.component.html',
-  styleUrl: './all-orders.component.scss'
+    selector: 'app-all-orders',
+    imports: [
+        RouterModule,
+        CommonModule,
+        FormsModule,
+        // Angular Material
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatProgressSpinnerModule,
+        MatIconModule,
+        MatSelectModule
+    ],
+    templateUrl: './all-orders.component.html',
+    styleUrl: './all-orders.component.scss'
 })
 export class AllOrdersComponent implements OnInit {
     orders: any[] = [];

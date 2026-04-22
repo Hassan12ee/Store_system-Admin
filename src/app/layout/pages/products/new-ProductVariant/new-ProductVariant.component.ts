@@ -9,20 +9,19 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-new-ProductVariant',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, 
-// TODO: `HttpClientModule` should not be imported into a component directly.
-// Please refactor the code to add `provideHttpClient()` call to the provider list in the
-// application bootstrap logic and remove the `HttpClientModule` import from this component.
-HttpClientModule,
+    selector: 'app-new-ProductVariant',
+    imports: [CommonModule, ReactiveFormsModule,
+        // TODO: `HttpClientModule` should not be imported into a component directly.
+        // Please refactor the code to add `provideHttpClient()` call to the provider list in the
+        // application bootstrap logic and remove the `HttpClientModule` import from this component.
+        HttpClientModule,
         MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatButtonModule
-  ],
-  templateUrl: './new-ProductVariant.component.html',
-  styleUrl: './new-ProductVariant.component.scss'
+        MatSelectModule,
+        MatInputModule,
+        MatButtonModule
+    ],
+    templateUrl: './new-ProductVariant.component.html',
+    styleUrl: './new-ProductVariant.component.scss'
 })
 export class NewProductVariantComponent implements OnInit{
   productForm!: FormGroup;

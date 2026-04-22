@@ -14,27 +14,25 @@ import { OrderService } from './../../../../shared/services/order/order.service'
 import { ProductService } from './../../../../shared/services/product/product.service';
 
 @Component({
-  selector: 'app-edit-orders',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    
-// TODO: `HttpClientModule` should not be imported into a component directly.
-// Please refactor the code to add `provideHttpClient()` call to the provider list in the
-// application bootstrap logic and remove the `HttpClientModule` import from this component.
-HttpClientModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-   MatTooltipModule,
-    MatRadioModule
-  ],
-  templateUrl: './edit-orders.component.html',
-  styleUrls: ['./edit-orders.component.scss']
+    selector: 'app-edit-orders',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        // TODO: `HttpClientModule` should not be imported into a component directly.
+        // Please refactor the code to add `provideHttpClient()` call to the provider list in the
+        // application bootstrap logic and remove the `HttpClientModule` import from this component.
+        HttpClientModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatRadioModule
+    ],
+    templateUrl: './edit-orders.component.html',
+    styleUrls: ['./edit-orders.component.scss']
 })
 export class EditOrdersComponent implements OnInit {
   Math = Math;

@@ -15,29 +15,26 @@ import { ProductService } from './../../../../shared/services/product/product.se
 import { ProductImageEditComponent } from '../../../additions/product-image-edit/product-image-edit.component';
 
 @Component({
-  selector: 'app-edit-products',
-  standalone: true,
-  imports: [
-
-    CommonModule,
-    ReactiveFormsModule,
-    
-// TODO: `HttpClientModule` should not be imported into a component directly.
-// Please refactor the code to add `provideHttpClient()` call to the provider list in the
-// application bootstrap logic and remove the `HttpClientModule` import from this component.
-HttpClientModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-   MatTooltipModule,
-    MatRadioModule,
-    ProductImageEditComponent
-  ],
-  templateUrl: './edit-products.component.html',
-  styleUrl: './edit-products.component.scss'
+    selector: 'app-edit-products',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        // TODO: `HttpClientModule` should not be imported into a component directly.
+        // Please refactor the code to add `provideHttpClient()` call to the provider list in the
+        // application bootstrap logic and remove the `HttpClientModule` import from this component.
+        HttpClientModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatRadioModule,
+        ProductImageEditComponent
+    ],
+    templateUrl: './edit-products.component.html',
+    styleUrl: './edit-products.component.scss'
 })
 export class EditProductsComponent {
 

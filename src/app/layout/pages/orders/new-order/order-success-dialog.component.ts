@@ -3,10 +3,9 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'order-success-dialog',
-  standalone: true,
-  imports: [MatDialogModule, CommonModule],
-  template: `
+    selector: 'order-success-dialog',
+    imports: [MatDialogModule, CommonModule],
+    template: `
     <h2 mat-dialog-title>Order Submitted Successfully</h2>
     <mat-dialog-content>
       <div *ngIf="data">
@@ -24,7 +23,7 @@ import { CommonModule } from '@angular/common';
       <button mat-button mat-dialog-close>Close</button>
     </mat-dialog-actions>
   `,
-  styles: [`
+    styles: [`
     :host {
       display: block;
       text-align: center;

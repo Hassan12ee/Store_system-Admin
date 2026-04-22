@@ -15,9 +15,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialog } from '@angular/material/dialog';
 import { ProductService } from '../../../../shared/services/product/product.service';
 @Component({
-  selector: 'app-all-products',
-  standalone: true,
-  imports: [
+    selector: 'app-all-products',
+    imports: [
         RouterModule,
         CommonModule,
         FormsModule,
@@ -30,9 +29,9 @@ import { ProductService } from '../../../../shared/services/product/product.serv
         MatProgressSpinnerModule,
         MatIconModule,
         MatSelectModule
-  ],
-  templateUrl: './all-products.component.html',
-  styleUrl: './all-products.component.scss'
+    ],
+    templateUrl: './all-products.component.html',
+    styleUrl: './all-products.component.scss'
 })
 export class AllProductsComponent implements OnInit {
     Products: any[] = [];

@@ -18,28 +18,26 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'app-new-order',
-  standalone: true,
-  imports: [
-    MatTooltipModule,
-    CommonModule,
-    ReactiveFormsModule,
-    
-// TODO: `HttpClientModule` should not be imported into a component directly.
-// Please refactor the code to add `provideHttpClient()` call to the provider list in the
-// application bootstrap logic and remove the `HttpClientModule` import from this component.
-HttpClientModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatRadioModule,
-    FormsModule,
-    OrderSuccessDialogComponent
-  ],
-  templateUrl: './new-order.component.html',
-  styleUrl: './new-order.component.scss'
+    selector: 'app-new-order',
+    imports: [
+        MatTooltipModule,
+        CommonModule,
+        ReactiveFormsModule,
+        // TODO: `HttpClientModule` should not be imported into a component directly.
+        // Please refactor the code to add `provideHttpClient()` call to the provider list in the
+        // application bootstrap logic and remove the `HttpClientModule` import from this component.
+        HttpClientModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        MatRadioModule,
+        FormsModule,
+        OrderSuccessDialogComponent
+    ],
+    templateUrl: './new-order.component.html',
+    styleUrl: './new-order.component.scss'
 })
 export class NewOrderComponent {
   Math = Math;

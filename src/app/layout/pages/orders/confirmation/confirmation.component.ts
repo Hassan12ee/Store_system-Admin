@@ -18,27 +18,25 @@ import { Console } from 'console';
 import e from 'express';
 
 @Component({
-  selector: 'app-confirmation',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    
-// TODO: `HttpClientModule` should not be imported into a component directly.
-// Please refactor the code to add `provideHttpClient()` call to the provider list in the
-// application bootstrap logic and remove the `HttpClientModule` import from this component.
-HttpClientModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-   MatTooltipModule,
-    MatRadioModule
-  ],
-  templateUrl: './confirmation.component.html',
-  styleUrls: ['./confirmation.component.scss']
+    selector: 'app-confirmation',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        // TODO: `HttpClientModule` should not be imported into a component directly.
+        // Please refactor the code to add `provideHttpClient()` call to the provider list in the
+        // application bootstrap logic and remove the `HttpClientModule` import from this component.
+        HttpClientModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatRadioModule
+    ],
+    templateUrl: './confirmation.component.html',
+    styleUrls: ['./confirmation.component.scss']
 })
 export class confirmationComponent implements OnInit {
   Math = Math;

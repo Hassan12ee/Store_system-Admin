@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-new-storage',
-  standalone: true,
-  imports: [],
-  templateUrl: './new-storage.component.html',
-  styleUrl: './new-storage.component.scss'
+    selector: 'app-new-storage',
+    imports: [],
+    templateUrl: './new-storage.component.html',
+    styleUrl: './new-storage.component.scss'
 })
 export class NewStorageComponent implements OnInit{
   ngOnInit(): void {

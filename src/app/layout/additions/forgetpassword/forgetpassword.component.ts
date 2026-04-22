@@ -6,11 +6,10 @@ import { Router } from '@angular/router';
 import { ResetCodeComponent } from '../reset-code/reset-code.component';
 import { ChangepasswordComponent } from '../changepassword/changepassword.component';
 @Component({
-  selector: 'app-forgetpassword',
-  standalone: true,
-  imports: [ReactiveFormsModule ,ResetCodeComponent , ChangepasswordComponent],
-  templateUrl: './forgetpassword.component.html',
-  styleUrl: './forgetpassword.component.scss'
+    selector: 'app-forgetpassword',
+    imports: [ReactiveFormsModule, ResetCodeComponent, ChangepasswordComponent],
+    templateUrl: './forgetpassword.component.html',
+    styleUrl: './forgetpassword.component.scss'
 })
 export class ForgetpasswordComponent implements OnInit {
   email!: string;

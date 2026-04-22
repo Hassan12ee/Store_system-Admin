@@ -8,11 +8,10 @@ import { Product } from '../../../shared/interfaces/product';
 
 
 @Component({
-  selector: 'app-productdetails',
-  standalone: true,
-  imports: [],
-  templateUrl: './productdetails.component.html',
-  styleUrl: './productdetails.component.scss'
+    selector: 'app-productdetails',
+    imports: [],
+    templateUrl: './productdetails.component.html',
+    styleUrl: './productdetails.component.scss'
 })
 export class ProductdetailsComponent implements OnInit{
 constructor(private _ProductService:ProductService ,private _ActivatedRoute:ActivatedRoute ,private toastr: ToastrService) {

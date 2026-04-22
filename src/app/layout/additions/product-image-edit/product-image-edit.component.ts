@@ -1,11 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 @Component({
-  selector: 'app-product-image-edit',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './product-image-edit.component.html',
-  styleUrl: './product-image-edit.component.scss'
+    selector: 'app-product-image-edit',
+    imports: [CommonModule],
+    templateUrl: './product-image-edit.component.html',
+    styleUrl: './product-image-edit.component.scss'
 })
 export class ProductImageEditComponent {
 

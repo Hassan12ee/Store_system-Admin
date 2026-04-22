@@ -5,11 +5,10 @@ import { Router, RouterLink } from '@angular/router';
 import { FlowbiteService } from '../../../shared/services/flowbite/flowbite.service';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [ReactiveFormsModule , RouterLink],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+    selector: 'app-login',
+    imports: [ReactiveFormsModule, RouterLink],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit  {
   constructor(private _AuthService:AuthService , private _Router:Router ,private _FlowbiteService:FlowbiteService){}

@@ -11,25 +11,23 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 @Component({
-  selector: 'app-new-product',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    
-// TODO: `HttpClientModule` should not be imported into a component directly.
-// Please refactor the code to add `provideHttpClient()` call to the provider list in the
-// application bootstrap logic and remove the `HttpClientModule` import from this component.
-HttpClientModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatRadioModule,
-  ],
-  templateUrl: './new-product.component.html',
-  styleUrl: './new-product.component.scss'
+    selector: 'app-new-product',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        // TODO: `HttpClientModule` should not be imported into a component directly.
+        // Please refactor the code to add `provideHttpClient()` call to the provider list in the
+        // application bootstrap logic and remove the `HttpClientModule` import from this component.
+        HttpClientModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        MatRadioModule,
+    ],
+    templateUrl: './new-product.component.html',
+    styleUrl: './new-product.component.scss'
 })
 export class NewProductComponent implements OnInit{
     productForm!: FormGroup;

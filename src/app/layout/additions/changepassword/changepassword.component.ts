@@ -7,11 +7,10 @@ import { AuthService } from '../../../shared/services/auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-changepassword',
-  standalone: true,
-  imports: [ForgetpasswordComponent ,ReactiveFormsModule],
-  templateUrl: './changepassword.component.html',
-  styleUrl: './changepassword.component.scss'
+    selector: 'app-changepassword',
+    imports: [ForgetpasswordComponent, ReactiveFormsModule],
+    templateUrl: './changepassword.component.html',
+    styleUrl: './changepassword.component.scss'
 })
 export class ChangepasswordComponent implements OnInit{
 constructor(private _FlowbiteService:FlowbiteService ,private _AuthService:AuthService , private _Router:Router) { }

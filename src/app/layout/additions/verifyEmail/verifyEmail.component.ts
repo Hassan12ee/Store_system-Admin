@@ -5,11 +5,10 @@ import { AuthService } from '../../../shared/services/auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-forgetpassword',
-  standalone: true,
-  imports: [ReactiveFormsModule ],
-  templateUrl: './verifyEmail.component.html',
-  styleUrl: './verifyEmail.component.scss'
+    selector: 'app-forgetpassword',
+    imports: [ReactiveFormsModule],
+    templateUrl: './verifyEmail.component.html',
+    styleUrl: './verifyEmail.component.scss'
 })
 export class verifyEmailComponent implements OnInit {
   email!: string;
