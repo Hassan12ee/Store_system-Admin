@@ -7,7 +7,7 @@ import { AuthService } from '../../../shared/services/auth/auth.service';
 import { Router } from '@angular/router';
 @Component({
     selector: 'app-reset-code',
-    imports: [ForgetpasswordComponent, ReactiveFormsModule],
+    imports: [ReactiveFormsModule],
     templateUrl: './reset-code.component.html',
     styleUrl: './reset-code.component.scss'
 })

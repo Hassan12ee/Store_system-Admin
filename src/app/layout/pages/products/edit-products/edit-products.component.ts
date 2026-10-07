@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,22 +17,17 @@ import { ProductImageEditComponent } from '../../../additions/product-image-edit
 @Component({
     selector: 'app-edit-products',
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        // TODO: `HttpClientModule` should not be imported into a component directly.
-        // Please refactor the code to add `provideHttpClient()` call to the provider list in the
-        // application bootstrap logic and remove the `HttpClientModule` import from this component.
-        HttpClientModule,
-        FormsModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatInputModule,
-        MatButtonModule,
-        MatIconModule,
-        MatTooltipModule,
-        MatRadioModule,
-        ProductImageEditComponent
-    ],
+    ReactiveFormsModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatRadioModule,
+    ProductImageEditComponent
+],
     templateUrl: './edit-products.component.html',
     styleUrl: './edit-products.component.scss'
 })

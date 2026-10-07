@@ -14,18 +14,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { OrderService } from '../../../../shared/services/order/order.service';
 import { ProductService } from '../../../../shared/services/product/product.service';
 
-import { Console } from 'console';
-import e from 'express';
-
 @Component({
     selector: 'app-confirmation',
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        // TODO: `HttpClientModule` should not be imported into a component directly.
-        // Please refactor the code to add `provideHttpClient()` call to the provider list in the
-        // application bootstrap logic and remove the `HttpClientModule` import from this component.
-        HttpClientModule,
         FormsModule,
         MatFormFieldModule,
         MatSelectModule,

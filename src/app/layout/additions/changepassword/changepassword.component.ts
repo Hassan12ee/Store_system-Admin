@@ -1,14 +1,12 @@
-import { code } from './../../../shared/interfaces/data';
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ForgetpasswordComponent } from '../forgetpassword/forgetpassword.component';
 import { FlowbiteService } from '../../../shared/services/flowbite/flowbite.service';
 import { AuthService } from '../../../shared/services/auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-changepassword',
-    imports: [ForgetpasswordComponent, ReactiveFormsModule],
+    imports: [ ReactiveFormsModule],
     templateUrl: './changepassword.component.html',
     styleUrl: './changepassword.component.scss'
 })

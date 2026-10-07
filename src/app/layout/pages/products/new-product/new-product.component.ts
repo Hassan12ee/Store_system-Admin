@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { ProductService } from '../../../../shared/services/product/product.service';
 import {} from '@angular/common/http';
@@ -13,19 +13,14 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
     selector: 'app-new-product',
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        // TODO: `HttpClientModule` should not be imported into a component directly.
-        // Please refactor the code to add `provideHttpClient()` call to the provider list in the
-        // application bootstrap logic and remove the `HttpClientModule` import from this component.
-        HttpClientModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatInputModule,
-        MatButtonModule,
-        MatIconModule,
-        MatRadioModule,
-    ],
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatRadioModule
+],
     templateUrl: './new-product.component.html',
     styleUrl: './new-product.component.scss'
 })

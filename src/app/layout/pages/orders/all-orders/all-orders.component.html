@@ -6,28 +6,31 @@
         <h2 class="card-title">Filter Orders</h2>
         <form (ngSubmit)="getOrders()" class="filters" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end;">
           <mat-form-field appearance="fill" style="flex: 1 1 200px;">
-            <mat-label>Governorate</mat-label>  
+            <mat-label>Governorate</mat-label>
             <mat-select
               name="governorate"
               [(ngModel)]="filters.governorate"
               (selectionChange)="onGovernorateChange($event.value)">
-              <mat-option
-                *ngFor="let Governorate of Governorates"      
-                [disabled]="!Governorate.is_active_shipping"
-                [value]="Governorate.id">
+              @for (Governorate of Governorates; track Governorate) {
+                <mat-option
+                  [disabled]="!Governorate.is_active_shipping"
+                  [value]="Governorate.id">
                   <span>
                     {{ Governorate.governorate_name_ar }}
                   </span>
-              </mat-option>
+                </mat-option>
+              }
             </mat-select>
           </mat-form-field>
           <mat-form-field appearance="fill" style="flex: 1 1 200px;">
             <mat-label>City</mat-label>
             <mat-select [(ngModel)]="filters.city" name="city" >
-              <mat-option *ngFor="let city of Cities" [value]="city.id"
-                [disabled]="!city.is_active_shipping">
-                {{ city.city_name_ar }}
-              </mat-option>
+              @for (city of Cities; track city) {
+                <mat-option [value]="city.id"
+                  [disabled]="!city.is_active_shipping">
+                  {{ city.city_name_ar }}
+                </mat-option>
+              }
             </mat-select>
           </mat-form-field>
           <mat-form-field appearance="fill" style="flex: 1 1 200px;">
@@ -73,16 +76,16 @@
   <div class="col-xl-9 grid-margin stretch-card" >
     <div class="card">
       <div class="card-body">
-        <h2 class="card-title">All Orders</h2>     
+        <h2 class="card-title">All Orders</h2>
         <!-- Loading Spinner -->
-        @if (loading) 
-        { 
+        @if (loading)
+          {
           <div style="text-align:center; margin: 20px 0;">
             <mat-spinner diameter="40"></mat-spinner>
           </div>
         }
         @if(!loading && orders.length)
-        {
+          {
           <div class="table-responsive" >
             <!-- Orders Table -->
             <table mat-table [dataSource]="orders" class="mat-elevation-z8 orders-table table table-hover" >
@@ -130,9 +133,9 @@
               </ng-container>
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <!-- Clickable Row -->
-              <tr 
-                mat-row 
-                *matRowDef="let row; columns: displayedColumns;" 
+              <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumns;"
                 class="clickable-row"
                 [routerLink]="['/orders/edit', row.order_id]">
               </tr>
@@ -144,11 +147,11 @@
               [pageSizeOptions]="[5, 10, 20, 50]"
               showFirstLastButtons
               (page)="changePage($event)"
-            >
+              >
             </mat-paginator>
             <!-- No Data -->
             @if(!loading && orders.length === 0)
-            {
+              {
               <div class="no-data"  style="text-align:center; margin-top:20px;">
                 No orders found.
               </div>

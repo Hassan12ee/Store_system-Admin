@@ -8,32 +8,25 @@ import { verifyEmailComponent } from './layout/additions/verifyEmail/verifyEmail
 import { PermissionGuard } from './shared/guards/Permission.guard';
 import { AllEmployeesComponent } from './layout/pages/employees/all-employees/all-employees.component';
 import { NewEmployeeComponent } from './layout/pages/employees/new-employee/new-employee.component';
-
 // Users
 import { AllUsersComponent } from './layout/pages/users/all-users/all-users.component';
 import { NewUserComponent } from './layout/pages/users/new-user/new-user.component';
-
 // Storage
 import { AllStorageComponent } from './layout/pages/storage/all-storage/all-storage.component';
 import { NewStorageComponent } from './layout/pages/storage/new-storage/new-storage.component';
-
 // Roles
 import { AllRolesComponent } from './layout/pages/roles/all-roles/all-roles.component';
 import { NewRoleComponent } from './layout/pages/roles/new-role/new-role.component';
-
 // Products
 import { AllProductsComponent } from './layout/pages/products/all-products/all-products.component';
 import { NewProductComponent } from './layout/pages/products/new-product/new-product.component';
 import { EditProductsComponent } from './layout/pages/products/edit-products/edit-products.component';
-
 // Orders
 import { AllOrdersComponent } from './layout/pages/orders/all-orders/all-orders.component';
 import { NewOrderComponent } from './layout/pages/orders/new-order/new-order.component';
 import { EditOrdersComponent } from './layout/pages/orders/edit-orders/edit-orders.component';
 // import { EditProductComponent } from './layout/pages/products/edit-product/edit-product.component';
 import { confirmationComponent } from './layout/pages/orders/confirmation/confirmation.component';
-
-
 export const routes: Routes = [
   { path:"",redirectTo:"Home",pathMatch:"full"},
   { path: "Home", component: HomeComponent, canActivate :[authGuard], },

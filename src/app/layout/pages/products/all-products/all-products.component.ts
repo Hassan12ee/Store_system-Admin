@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -17,19 +17,17 @@ import { ProductService } from '../../../../shared/services/product/product.serv
 @Component({
     selector: 'app-all-products',
     imports: [
-        RouterModule,
-        CommonModule,
-        FormsModule,
-        // Angular Material
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatProgressSpinnerModule,
-        MatIconModule,
-        MatSelectModule
-    ],
+    RouterModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
+    MatSelectModule
+],
     templateUrl: './all-products.component.html',
     styleUrl: './all-products.component.scss'
 })

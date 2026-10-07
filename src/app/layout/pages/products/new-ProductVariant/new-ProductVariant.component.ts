@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { ProductService } from '../../../../shared/services/product/product.service';
 import {} from '@angular/common/http';
@@ -10,16 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'app-new-ProductVariant',
-    imports: [CommonModule, ReactiveFormsModule,
-        // TODO: `HttpClientModule` should not be imported into a component directly.
-        // Please refactor the code to add `provideHttpClient()` call to the provider list in the
-        // application bootstrap logic and remove the `HttpClientModule` import from this component.
-        HttpClientModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatInputModule,
-        MatButtonModule
-    ],
+    imports: [ReactiveFormsModule, HttpClientModule, MatFormFieldModule, MatSelectModule, MatInputModule, MatButtonModule],
     templateUrl: './new-ProductVariant.component.html',
     styleUrl: './new-ProductVariant.component.scss'
 })
