@@ -8,6 +8,8 @@ import { provideToastr, ToastrModule } from 'ngx-toastr';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
-  providers: [ provideAnimations(),provideToastr(),provideRouter(routes,withViewTransitions()), provideClientHydration(),provideHttpClient(withFetch()),
+  
+    providers: [ provideAnimations(),provideToastr(),provideRouter(routes,withViewTransitions()), provideClientHydration(),provideHttpClient(withFetch()),
     importProvidersFrom(RouterModule , BrowserAnimationsModule ,ToastrModule), provideAnimationsAsync()]
+  
 };

@@ -1,32 +1,32 @@
-import { NotfoundComponent } from './layout/additions/notfound/notfound.component';
-import { HomeComponent } from './layout/pages/home/home.component';
+import { NotfoundComponent } from './layout/additions/notfound/notfound';
+import { HomeComponent } from './layout/pages/home/home';
 import { Routes } from '@angular/router';
-import { LoginComponent } from './layout/pages/login/login.component';
+import { LoginComponent } from './layout/pages/login/login';
 import { authGuard } from './shared/guards/auth.guard';
-import { ForgetpasswordComponent } from './layout/additions/forgetpassword/forgetpassword.component';
-import { verifyEmailComponent } from './layout/additions/verifyEmail/verifyEmail.component';
+import { ForgetpasswordComponent } from './layout/additions/forgetpassword/forgetpassword';
+import { verifyEmailComponent } from './layout/additions/verifyEmail/verifyEmail';
 import { PermissionGuard } from './shared/guards/Permission.guard';
-import { AllEmployeesComponent } from './layout/pages/employees/all-employees/all-employees.component';
-import { NewEmployeeComponent } from './layout/pages/employees/new-employee/new-employee.component';
+import { AllEmployeesComponent } from './layout/pages/employees/all-employees/all-employees';
+import { NewEmployeeComponent } from './layout/pages/employees/new-employee/new-employee';
 // Users
-import { AllUsersComponent } from './layout/pages/users/all-users/all-users.component';
-import { NewUserComponent } from './layout/pages/users/new-user/new-user.component';
+import { AllUsersComponent } from './layout/pages/users/all-users/all-users';
+import { NewUserComponent } from './layout/pages/users/new-user/new-user';
 // Storage
-import { AllStorageComponent } from './layout/pages/storage/all-storage/all-storage.component';
-import { NewStorageComponent } from './layout/pages/storage/new-storage/new-storage.component';
+import { AllStorageComponent } from './layout/pages/storage/all-storage/all-storage';
+import { NewStorageComponent } from './layout/pages/storage/new-storage/new-storage';
 // Roles
-import { AllRolesComponent } from './layout/pages/roles/all-roles/all-roles.component';
-import { NewRoleComponent } from './layout/pages/roles/new-role/new-role.component';
+import { AllRolesComponent } from './layout/pages/roles/all-roles/all-roles';
+import { NewRoleComponent } from './layout/pages/roles/new-role/new-role';
 // Products
-import { AllProductsComponent } from './layout/pages/products/all-products/all-products.component';
-import { NewProductComponent } from './layout/pages/products/new-product/new-product.component';
-import { EditProductsComponent } from './layout/pages/products/edit-products/edit-products.component';
+import { AllProductsComponent } from './layout/pages/products/all-products/all-products';
+import { NewProductComponent } from './layout/pages/products/new-product/new-product';
+import { EditProductsComponent } from './layout/pages/products/edit-products/edit-products';
 // Orders
-import { AllOrdersComponent } from './layout/pages/orders/all-orders/all-orders.component';
-import { NewOrderComponent } from './layout/pages/orders/new-order/new-order.component';
-import { EditOrdersComponent } from './layout/pages/orders/edit-orders/edit-orders.component';
-// import { EditProductComponent } from './layout/pages/products/edit-product/edit-product.component';
-import { confirmationComponent } from './layout/pages/orders/confirmation/confirmation.component';
+import { AllOrdersComponent } from './layout/pages/orders/all-orders/all-orders';
+import { NewOrderComponent } from './layout/pages/orders/new-order/new-order';
+import { EditOrdersComponent } from './layout/pages/orders/edit-orders/edit-orders';
+// import { EditProductComponent } from './layout/pages/products/edit-product/edit-product';
+import { confirmationComponent } from './layout/pages/orders/confirmation/confirmation';
 export const routes: Routes = [
   { path:"",redirectTo:"Home",pathMatch:"full"},
   { path: "Home", component: HomeComponent, canActivate :[authGuard], },
@@ -56,4 +56,3 @@ export const routes: Routes = [
 // }
   {path:"**",component: NotfoundComponent}
 ];
-

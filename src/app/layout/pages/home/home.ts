@@ -1,0 +1,48 @@
+import { Product, ProductsResponse } from '../../../shared/interfaces/product';
+import { ProductService } from '../../../shared/services/product/product.service';
+import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { FormsModule } from '@angular/forms';
+
+
+
+@Component({
+    selector: 'app-home',
+    imports: [FormsModule, /*RouterLink */],
+    templateUrl: './home.html',
+    styleUrl: './home.css'
+})
+export class HomeComponent implements OnInit {
+  isLoading:boolean=false;
+  productlist!:Product[];
+  arr !:string[];
+  userWord:string='';
+
+  constructor(private _ProductService:ProductService,private toastr:ToastrService){}
+  ngOnInit(): void {
+    if( typeof localStorage!= 'undefined')
+   localStorage.setItem('currentpage','/Home')
+  
+  this.getallproducts();
+
+  }
+
+  getallproducts()
+  {
+  this.isLoading=true;
+    this._ProductService.getallproducts().subscribe({
+      next : res =>{
+        this.productlist = res.data.products;
+        console.log(this.productlist)
+        this.isLoading=false;
+      },
+      error : err =>{
+        console.log(err);
+        this.isLoading=false;
+      }
+    })
+
+  }
+
+}

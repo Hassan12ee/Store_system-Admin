@@ -1,0 +1,97 @@
+<section class="bg-neutral-primary">
+  <div class="container h-screen w-full mx-auto p-4">
+    @if (isLogin==true) 
+    {
+      <nav class="bg-neutral-primary fixed w-full z-20 top-0 start-0 border-b border-default">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <a routerLink="/Home" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <span class="text-heading self-center text-2xl font-semibold whitespace-nowrap">Bn abdallah™</span>
+        </a>
+        <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+            <button type="button" class="flex text-sm bg-neutral-primary rounded-full md:me-0 focus:ring-4 focus:ring-neutral-tertiary" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+              <span class="sr-only">Open user menu</span>
+              <img class="w-8 h-8 rounded-full" src="assets/images/faces/face15.jpg" alt="user photo">
+            </button>
+            <!-- Dropdown menu -->
+            <div class="z-50 hidden bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg w-44" id="user-dropdown">
+              <div class="px-4 py-3 text-sm border-b border-default">
+                <span class="block text-heading font-medium">{{name}}</span>
+                <span class="block text-body truncate">{{roles}}</span>
+              </div>
+              <ul class="p-2 text-sm text-body font-medium" aria-labelledby="user-menu-button">
+                <li>
+                  <a href="#" class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">Settings</a>
+                </li>
+                <li>
+                  <a (click)="_AuthService.logOut()" class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">Sign out</a>
+                </li>
+              </ul>
+            </div>
+            <button data-collapse-toggle="navbar-user" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-body rounded-base md:hidden hover:bg-neutral-secondary-soft hover:text-heading focus:outline-none focus:ring-2 focus:ring-neutral-tertiary" aria-controls="navbar-user" aria-expanded="false">
+              <span class="sr-only">Open main menu</span>
+              <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14"/></svg>
+            </button>
+        </div>
+        <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
+          <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-default rounded-base bg-neutral-secondary-soft md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-neutral-primary">
+            @if(hasPermission('view_employee')){
+              <li>
+                <a routerLink="/employees" class="block py-2 px-3 text-heading rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent">employees</a>
+              </li>
+            }
+            @if(hasPermission('view_users')){
+              <li>
+                <a routerLink="/users" class="block py-2 px-3 text-heading rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent">Users</a>
+              </li>
+            }
+            @if(hasPermission('view_orders')){
+              <li>
+                <a routerLink="/orders" class="block py-2 px-3 text-heading rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent">Orders</a>
+              </li>
+            }
+            @if(hasPermission('view_storage')){
+              <li>
+                <a routerLink="/storage" class="block py-2 px-3 text-heading rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent">Storage</a>
+              </li>
+            }
+            @if(hasPermission('view_products')){
+              <li>
+                <a routerLink="/products" class="block py-2 px-3 text-heading rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent">Products</a>
+              </li>
+            }
+          </ul>
+        </div>
+        </div>
+      </nav>
+    }
+    <div class="justify-center items-center relative w-full h-full pt-20">
+      
+      <router-outlet></router-outlet>
+      <footer class="bg-neutral-primary-soft absolute bottom-0 w-full rounded-base shadow-xs  border border-default m-4">
+          <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+              <div class="sm:flex sm:items-center sm:justify-between">
+                  <a routerLink="/Home" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
+                      <span class="text-heading self-center text-2xl font-semibold whitespace-nowrap">Bn abdallah™</span>
+                  </a>
+                  <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-body sm:mb-0">
+                      <li>
+                          <a routerLink="/about" class="hover:underline me-4 md:me-6">About</a>
+                      </li>
+                      <li>
+                          <a routerLink="/privacy" class="hover:underline me-4 md:me-6">Privacy Policy</a>
+                      </li>
+                      <li>
+                          <a routerLink="/licensing" class="hover:underline me-4 md:me-6">Licensing</a>
+                      </li>
+                      <li>
+                          <a routerLink="/contact" class="hover:underline">Contact</a>
+                      </li>
+                  </ul>
+              </div>
+              <hr class="my-6 border-default sm:mx-auto lg:my-8" />
+              <span class="block text-sm text-body sm:text-center">© 2026 <a routerLink="/Home" class="hover:underline">Bn abdallah™</a>. All Rights Reserved.</span>
+          </div>
+      </footer>
+    </div>
+    </div>
+</section>

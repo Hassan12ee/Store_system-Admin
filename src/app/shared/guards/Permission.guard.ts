@@ -1,12 +1,12 @@
 import { ActivatedRouteSnapshot, CanActivate,   Router } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
 import { inject, Injectable } from '@angular/core';
-import { AppComponent } from '../../app.component';
+import { App } from '../../app';
 
 
 @Injectable({ providedIn: 'root' })
 export class PermissionGuard implements CanActivate {
-  constructor(private auth: AppComponent, private router: Router) {}
+  constructor(private auth: App, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
     const requiredPermission = route.data['permission'] as string;
